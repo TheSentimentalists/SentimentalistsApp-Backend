@@ -13,6 +13,8 @@
 - Interface between modules, lambda functions
 
 ## Extras
+* Check GATE API Generic Opinion Mining
+  - sentiment analysis - polarity, score, sarcasm, etc
 * Search Feature
 * Newspaper library - show "keywords" (?)
 * Upload a document / Type a document

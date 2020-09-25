@@ -2,7 +2,7 @@
 
 **Ana (AI processing)**
 - TextBlob: Polarity & Subjectivity Score
-- URL Reliability: Gate Source Credibility API
+- URL Reliability: Gate Source Credibility API, which also returns the SOURCE and the CATEGORY (fake news, etc)
 - Spacy library: Cross-Analysis of Docs
 
 **Jyotshna (user input)**

@@ -1,6 +1,6 @@
 ## Function: validateURL
 ## Input: URL
-## Output: Article
+## Output: 1 (valid) or -1 (invalid)
 ## Author: The Sentimentalists / Ana B Potje
 ## Date: 28/Sep/2020
 ##

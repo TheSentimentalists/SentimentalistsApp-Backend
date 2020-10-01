@@ -1,3 +1,9 @@
 {
-    "python.pythonPath": "C:\\Anaconda3\\envs\\ads9ldn\\python.exe"
+    "python.pythonPath": "C:\\Anaconda3\\envs\\sentim\\python.exe",
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true
 }

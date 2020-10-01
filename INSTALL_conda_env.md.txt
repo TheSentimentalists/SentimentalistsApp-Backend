@@ -1,0 +1,44 @@
+conda create -n sentim python=3 jupyter requests textblob validators
+###
+### created environment c:\anaconda3\envs\sentim
+###
+
+$ conda install -c conda-forge pytest
+$ conda activate sentim
+$ conda install -c conda-forge newspaper3k
+
+###
+### conda env list => to check all environments
+### conda list => check packages in my current conda env
+###
+
+### CREATED PYTHONPATH environment variable pointing to the "src" directory for Pytest:
+### PYTHONTEST = "D:\AATechReturners\Sentimentalists\backend\SentimentalistsApp-Backend\src"
+###
+### included on the TOP of the PATH variable:
+### c:\Anaconda3\envs\sentim            =>> Python
+### c:\Anaconda3\envs\sentim\Scripts    =>> Pytest
+### c:\Anaconda3\Scripts                =>> Conda
+###
+### included empty files "__init__.py" in the test and src directories
+
+=> created file "setup.py" under the directory "SentimentalistsApp-Backend":
+
+#!/usr/bin/env python3
+
+from setuptools import setup, find_packages
+
+setup(name="utils", packages=find_packages())
+
+=> settings.json:
+
+{
+    "python.pythonPath": "C:\\Anaconda3\\envs\\sentim\\python.exe",
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true
+}
+

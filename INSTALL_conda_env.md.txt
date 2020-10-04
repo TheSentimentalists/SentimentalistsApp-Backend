@@ -1,4 +1,4 @@
-conda create -n sentim python=3 jupyter requests textblob validators
+conda create -n sentim python=3 jupyter requests validators textblob
 ###
 ### created environment c:\anaconda3\envs\sentim
 ###
@@ -6,6 +6,11 @@ conda create -n sentim python=3 jupyter requests textblob validators
 $ conda install -c conda-forge pytest
 $ conda activate sentim
 $ conda install -c conda-forge newspaper3k
+$ conda install -c conda-forge nltk 
+$ pip install vaderSentiment
+
+### FIXING jupyter notebook python error (create a new Python notebook afterwards)
+python -m ipykernel install
 
 ###
 ### conda env list => to check all environments
@@ -41,4 +46,3 @@ setup(name="utils", packages=find_packages())
     "python.testing.nosetestsEnabled": false,
     "python.testing.pytestEnabled": true
 }
-

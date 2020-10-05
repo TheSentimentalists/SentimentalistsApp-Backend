@@ -9,8 +9,15 @@
 import getArticle as getArt   # The code to test
 
 def test_get_top_image():
-    url = "https://www.thetimes.co.uk/edition/news/what-happens-if-the-us-election-polls-are-wrong-svwztjvvh"
-    Article = getArt.getArticle(url)
-    print(Article.top_image)
-    assert Article.top_image == "xx" #"https://www.thetimes.co.uk/imageserver/image/%2Fmethode%2Ftimes%2Fprod%2Fweb%2Fbin%2F8775f498-02f4-11eb-bce8-b17824147865.jpg?crop=1600%2C900%2C0%2C0&resize=685"
-    #assert 1 == 1
+    Article = getArt.getArticle("https://www.bbc.co.uk/news/business-54371469")
+    assert Article.top_image == "https://ichef.bbci.co.uk/news/1024/branded_news/1230F/production/_114711547_54372950.jpg"
+
+def test_get_keywords():
+    Article = getArt.getArticle("https://www.bbc.co.uk/news/business-54371469")
+    list_kw = ['loyalty', 'mobile', 'dont', 'chapman', 'vulnerable', 'impossible', 'paying', 'customers', 'price', 'does', 'computer', 'shopping', 'mrs', 'insurance']
+    assert Article.keywords == list_kw
+
+def test_get_summary():
+    Article = getArt.getArticle("https://www.bbc.co.uk/news/business-54371469")
+    summary = 'But Mrs Chapman was lucky.\nThe widow, from County Durham, does not have a computer and does not know how to operate one.\n"I was surprised," says Mrs Chapman.\nBusinesses giving vulnerable customers targeted help?\nThat would still prevent people such as Mrs Chapman, who do not have internet access, from getting the very cheapest deals.'
+    assert Article.summary == summary

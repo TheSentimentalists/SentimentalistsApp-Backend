@@ -25,10 +25,11 @@
 ###########################################################################################################
 
 def sentimentAnalysis(url):
+    import getText as getTxt
     from textblob import TextBlob
 
-    text = getText(url)
+    text = getTxt.getText(url)
     ### analysing the text 
     testimonial = TextBlob(text)
     ## use the output as "testimonial.sentiment" or "testimonial.sentences"
-    return(testimonial);
+    return(testimonial)

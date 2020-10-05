@@ -15,7 +15,7 @@ def test_get_top_image():
 def test_get_keywords():
     Article = getArt.getArticle("https://www.bbc.co.uk/news/business-54371469")
     list_kw = ['loyalty', 'mobile', 'dont', 'chapman', 'vulnerable', 'impossible', 'paying', 'customers', 'price', 'does', 'computer', 'shopping', 'mrs', 'insurance']
-    assert Article.keywords == list_kw
+    assert Article.keywords.sort() == list_kw.sort()
 
 def test_get_summary():
     Article = getArt.getArticle("https://www.bbc.co.uk/news/business-54371469")

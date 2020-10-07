@@ -8,3 +8,8 @@
    * Reject the URL (how?)
    * Send a message on the screen warning that the link contains several articles?
 
+**Issue #2 - Analyse URL language
+- If the URL is from a foreign website, the code still analyse its sentiment (polarity / subjectivity)
+- As an improvement, we can capture the language and throw an error if the language is not "English"
+
+

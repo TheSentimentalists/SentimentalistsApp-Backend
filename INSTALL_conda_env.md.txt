@@ -9,6 +9,12 @@ $ conda install -c conda-forge newspaper3k
 $ conda install -c conda-forge nltk 
 $ pip install vaderSentiment
 
+### SPACY
+$ conda install -c conda-forge spacy
+$ python -m spacy download en_core_web_sm
+$ python -m spacy download en_core_web_md
+
+
 ### FIXING jupyter notebook python error (create a new Python notebook afterwards)
 python -m ipykernel install
 

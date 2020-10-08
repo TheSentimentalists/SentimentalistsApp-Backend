@@ -1,9 +1,12 @@
 import json
 import uuid
 import getCredibilityScore as cr
+import validators
 
 def lambda_handler(event, context):
-    
+## event must be a dict with a url key, and context can be nothing:
+## lambda_handler({"url":"http://bbc.co.uk"}, "")
+
     print(event)
     requestid = str(uuid.uuid4())
     
@@ -14,6 +17,9 @@ def lambda_handler(event, context):
             'statusCode': 400,
             'body': json.dumps("no url")
         }
+
+    if (not validators.url(url)):
+        return json.dumps({"error" : "Invalid URL"})
     
     credibilityresult = cr.getCredibilityScore(url)
     
@@ -28,4 +34,6 @@ def lambda_handler(event, context):
     
     jsonresponse = json.dumps(object)
     return jsonresponse
-    
+
+
+print(lambda_handler({"url":"http://bbc.co.uk"}, ""))

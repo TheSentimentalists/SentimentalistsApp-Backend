@@ -1,0 +1,8 @@
+Representing our information in a "traffic light" shape, considering credibility, polarity and subjectivity.
+
+Dismissed the idea of multiplying subjectivity by 2 if the value is above 0.5 (website articles tend to get a balanced / neutral rating, so no need for that ...).
+
+The ABS(POL * SUBJ) will be in average around "0.04" (looking at the tests we have done ...), maybe we should make the horizontal line "thinner" / reducing the scale, as the values will be always very close to zero.
+
+"Cosmetic" features can be changed...
+

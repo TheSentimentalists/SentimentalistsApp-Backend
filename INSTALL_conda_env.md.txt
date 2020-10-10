@@ -9,6 +9,8 @@ $ conda install -c conda-forge newspaper3k
 $ conda install -c conda-forge nltk 
 $ pip install vaderSentiment
 
+####$ conda install -c conda-forge pandas numpy ##### for tests only!!!
+
 ### SPACY
 $ conda install -c conda-forge spacy
 $ python -m spacy download en_core_web_sm

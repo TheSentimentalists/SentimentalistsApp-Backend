@@ -21,6 +21,8 @@
  
 def getArticle(url):
     from newspaper import Article
+    import nltk
+    nltk.download('punkt')
 
     ## use the output to get features such as "article.top_image", "article.keywords", "article.summary", etc  
     article = Article(url)

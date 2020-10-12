@@ -3,3 +3,4 @@ validators
 boto3
 textblob
 newspaper3k
+nltk

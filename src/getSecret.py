@@ -27,10 +27,7 @@ def getSecret(secret_name, region_name):
         region_name=region_name
     )
 
-    # In this sample we only handle the specific exceptions for the 'GetSecretValue' API.
-    # See https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
-    # We rethrow the exception by default.
-
+    # Try obtain the secret, handle a few exceptions
     try:
         get_secret_value_response = client.get_secret_value(
             SecretId=secret_name
@@ -38,26 +35,18 @@ def getSecret(secret_name, region_name):
     except ClientError as e:
         if e.response['Error']['Code'] == 'DecryptionFailureException':
             # Secrets Manager can't decrypt the protected secret text using the provided KMS key.
-            # Deal with the exception here, and/or rethrow at your discretion.
             return {'error':'Key Decryption Failure'}
         elif e.response['Error']['Code'] == 'InternalServiceErrorException':
             # An error occurred on the server side.
-            # Deal with the exception here, and/or rethrow at your discretion.
             return {'error':'Server Side Error'}
         elif e.response['Error']['Code'] == 'InvalidParameterException':
             # You provided an invalid value for a parameter.
-            # Deal with the exception here, and/or rethrow at your discretion.
             return {'error':'Invalid Parameter'}
         elif e.response['Error']['Code'] == 'InvalidRequestException':
             # You provided a parameter value that is not valid for the current state of the resource.
-            # Deal with the exception here, and/or rethrow at your discretion.
             return {'error':'Invalid Request'}
         elif e.response['Error']['Code'] == 'ResourceNotFoundException':
             # We can't find the resource that you asked for.
-            # Deal with the exception here, and/or rethrow at your discretion.
             return {'error':'Resource Not Found'}
     else:
         return json.loads(get_secret_value_response['SecretString'])
-
-print(type(getSecret('prod/test', 'eu-west-2')))
-print(getSecret("prod/getCredibilityScore/GATEKey", "eu-west-2"))

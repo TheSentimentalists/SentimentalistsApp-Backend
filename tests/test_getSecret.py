@@ -1,8 +1,8 @@
-## Function: test_getText.py
-## Author: The Sentimentalists / Ana B Potje
-## Date: 01/10/2020
+## Function: test_getSecret.py
+## Author: The Sentimentalists / Jamie Johnstone
+## Date: 12/10/2020
 ##
-## Tests the Function "getText.py"
+## Tests the Function "getSecret.py"
 ## Uses PYTEST framework
 ###########################################################################################################
 

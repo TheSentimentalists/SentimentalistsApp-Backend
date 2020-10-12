@@ -9,10 +9,6 @@
 ## Otherwise, it will return an 'error'.
 ###########################################################################################################
 
-# Use this code snippet in your app.
-# If you need more information about configurations or implementing the sample code, visit the AWS docs:   
-# https://aws.amazon.com/developers/getting-started/python/
-
 import boto3
 import base64
 import json

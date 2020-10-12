@@ -55,13 +55,13 @@ jobs:
 
     - name: Terraform fmt
       if: github.event_name == 'pull_request'
-      working-directory: ./infra/test
+      working-directory: ./infra/prod
       id: fmt
       run: terraform fmt -check
       continue-on-error: true
 
     - name: Terraform Init
-      working-directory: ./infra/test
+      working-directory: ./infra/prod
       id: init
       run: terraform init
       env:
@@ -70,13 +70,13 @@ jobs:
 
     - name: Terraform Validate
       if: github.event_name == 'pull_request'
-      working-directory: ./infra/test
+      working-directory: ./infra/prod
       id: validate
       run: terraform validate -no-color
 
     - name: Terraform Plan
       if: github.event_name == 'pull_request'
-      working-directory: ./infra/test
+      working-directory: ./infra/prod
       id: plan
       run: terraform plan -no-color -var="payload=../../src/payload.zip"
       continue-on-error: true
@@ -110,7 +110,7 @@ jobs:
 
     - name: Merge - Apply TF
       if: github.event_name == 'push'
-      working-directory: ./infra/test
+      working-directory: ./infra/prod
       id: apply
       run: terraform apply -auto-approve -no-color -var="payload=../../src/payload.zip"
       env:

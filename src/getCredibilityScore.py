@@ -12,15 +12,21 @@
 
 def getCredibilityScore(url):
     import requests
-    
-    Gate_Source_Cred_API = "https://cloud-api.gate.ac.uk/process-document/source-credibility?annotations=:DomainCredibility"
-    cred_txt = requests.post(Gate_Source_Cred_API, data = url, headers={'Content-Type': 'text/plain'}, 
-                                    auth=('gcc3g8cmwyob', '8ypn2huuqhu43zm3i2in'))
-    rel_json = cred_txt.json()
+    import getSecret as secrets
+
     p_score = 0
     p_category = '' 
     p_source = ''
     return_dict = {'type': 'credibility', 'score': -1}
+
+    aws_secrets = secrets.getSecret("prod/getCredibilityScore/GATEKey", "eu-west-2")
+    if "error" in aws_secrets:
+        return return_dict
+    
+    Gate_Source_Cred_API = "https://cloud-api.gate.ac.uk/process-document/source-credibility?annotations=:DomainCredibility"
+    cred_txt = requests.post(Gate_Source_Cred_API, data = url, headers={'Content-Type': 'text/plain'}, 
+                                    auth=(aws_secrets['apiid'], aws_secrets['apikey']))
+    rel_json = cred_txt.json()
 
     if (rel_json['entities'] != {}):
         for item in rel_json['entities']['DomainCredibility']:

@@ -1,11 +1,11 @@
 ## Function: getSecret
 ## Input: Key
-## Output: String
+## Output: Dict (Secret Key/Value Pairs)
 ## Author: The Sentimentalists / Jamie Johnstone
 ## Date: 12/Oct/2020
 ##
-## This function calls the retrieves a stored secret from AWS Secret Manager
-## It returns the requested secret as a string in JSON format.
+## This function calls the retrieves a stored secret from AWS Secret Manager.
+## It returns the requested secret as a dict of key/value pairs.
 ## Otherwise, it will return an 'error'.
 ###########################################################################################################
 

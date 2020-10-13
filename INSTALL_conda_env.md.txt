@@ -7,6 +7,7 @@ $ conda install -c conda-forge pytest
 $ conda activate sentim
 $ conda install -c conda-forge newspaper3k
 $ conda install -c conda-forge nltk 
+$ conda install -c conda-forge boto3
 $ pip install vaderSentiment
 
 ###For Windows 10 to use pip in "cmd" add 3 env paths D:\Anaconda3 - D:\Anaconda3\Scripts - D:\Anaconda3\Library\bin

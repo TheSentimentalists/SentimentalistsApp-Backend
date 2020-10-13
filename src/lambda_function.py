@@ -18,6 +18,10 @@ def lambda_handler(event, context):
             'body': json.dumps("no url")
         }
 
+    #### Adding "https://" to the URL if not present
+    if (not url.startswith('https://') and not url.startswith('http://')):
+        url = 'https://' + url
+
     if (not validators.url(url)):
         return json.dumps({"error" : "Invalid URL"})
     

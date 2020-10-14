@@ -29,7 +29,11 @@ def sentimentAnalysis(url):
     from textblob import TextBlob
 
     text = getTxt.getText(url)
-    ### analysing the text 
-    testimonial = TextBlob(text)
-    ## use the output as "testimonial.sentiment" or "testimonial.sentences"
+    testimonial = ''
+
+    if text != '-1':
+        ### analysing the text 
+        testimonial = TextBlob(text)
+        ## use the output as "testimonial.sentiment" or "testimonial.sentences"
+    
     return(testimonial)

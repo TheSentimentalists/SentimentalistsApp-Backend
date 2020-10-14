@@ -8,13 +8,19 @@
 ## remove some unwanted characters and words, and returns the unformatted text.
 ###########################################################################################################
 
+
 def getText(url):
     from newspaper import Article
-    
     ### Getting the Text
-    article = Article(url)
-    article.download()
-    article.parse()
+    try:
+        article = Article(url)
+        article.download()
+        article.parse()
+    ### Exception - e.g if URL is "valid" but inexistent, no text will be retrieved
+    except Exception as e: 
+        #print(e)
+        return('-1')
+    
     text = article.text
     ### Removing unwanted formatting
     text = text.replace("\n\n", "")

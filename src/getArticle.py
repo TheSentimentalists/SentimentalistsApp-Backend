@@ -23,10 +23,15 @@ def getArticle(url):
     from newspaper import Article
     import nltk
     nltk.download('punkt')
-
     ## use the output to get features such as "article.top_image", "article.keywords", "article.summary", etc  
-    article = Article(url)
-    article.download()
-    article.parse()
+    try:
+        article = Article(url)
+        article.download()
+        article.parse()
+    ### Exception - e.g if URL is "valid" but inexistent, no text will be retrieved
+    except Exception as e: 
+        #print(e)
+        return('-1')
+
     article.nlp()
     return(article)

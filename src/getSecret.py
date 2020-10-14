@@ -29,6 +29,9 @@ def getSecret(secret_name, region_name):
             SecretId=secret_name
         )
     except ClientError as e:
+        if e.response['Error']['Code'] == 'AccessDeniedException':
+            # Function doesn't have the right permissions.
+            return {'error':'Key Access Failure'}
         if e.response['Error']['Code'] == 'DecryptionFailureException':
             # Secrets Manager can't decrypt the protected secret text using the provided KMS key.
             return {'error':'Key Decryption Failure'}

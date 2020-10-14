@@ -1,14 +1,10 @@
 import json
-import uuid
 import getCredibilityScore as cr
 import validators
 
 def lambda_handler(event, context):
 ## event must be a dict with a url key, and context can be nothing:
 ## lambda_handler({"url":"http://bbc.co.uk"}, "")
-
-    print(event)
-    requestid = str(uuid.uuid4())
     
     try:
         url = event['url']
@@ -28,9 +24,7 @@ def lambda_handler(event, context):
     credibilityresult = cr.getCredibilityScore(url)
     
     object = {
-        "requestid" : requestid,
         "url" : url,
-        "status" : "processed",
         "results" : [
             credibilityresult
         ]

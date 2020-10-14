@@ -9,12 +9,12 @@
 import lambda_function as lf   # The code to test
 
 def test_URL_with_Score(): 
-    result_score = [{"type": "credibility", "score": 95.0, "source": "Media Bias/Fact Check", "category": "UNS"}]
+    result_score = [{"type": "credibility", "outcome": {"score": 95.0, "source": "Media Bias/Fact Check", "category": "UNS"}}]
     result_dict = eval(lf.lambda_handler({"url":"https://www.bbc.co.uk/news/uk-54234084"}, ""))
     assert result_dict['results'] == result_score
 
 def test_URL_with_NO_Score(): 
-    result_score = [{"type": "credibility", "score": -1}]
+    result_score = [{"type": "credibility", "outcome":{"score": -1}}]
     result_dict = eval(lf.lambda_handler({"url":"https://socialistworker.co.uk/"}, ""))
     assert result_dict['results'] == result_score
 
@@ -23,11 +23,11 @@ def test_invalid_URL():
     assert result_dict['error'] == 'Invalid URL'
 
 def test_no_https(): 
-    result_score = [{"type": "credibility", "score": 95.0, "source": "Media Bias/Fact Check", "category": "UNS"}]
+    result_score = [{"type": "credibility", "outcome":{"score": 95.0, "source": "Media Bias/Fact Check", "category": "UNS"}}]
     result_dict = eval(lf.lambda_handler({"url":"www.bbc.co.uk/news/uk-54234084"}, ""))
     assert result_dict['results'] == result_score
 
 def test_no_www(): 
-    result_score = [{"type": "credibility", "score": 95.0, "source": "Media Bias/Fact Check", "category": "UNS"}]
+    result_score = [{"type": "credibility", "outcome":{"score": 95.0, "source": "Media Bias/Fact Check", "category": "UNS"}}]
     result_dict = eval(lf.lambda_handler({"url":"bbc.co.uk/news/uk-54234084"}, ""))
     assert result_dict['results'] == result_score

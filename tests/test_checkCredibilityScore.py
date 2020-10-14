@@ -9,9 +9,9 @@
 import getCredibilityScore as getCredScore    # The code to test 
 
 def test_URL_with_Score():
-    result_score = {'type': 'credibility', 'score': 95.0, 'source': 'Media Bias/Fact Check', 'category': 'UNS'}
+    result_score = {'type': 'credibility', 'outcome': {'score': 95.0, 'source': 'Media Bias/Fact Check', 'category': 'UNS'}}
     assert getCredScore.getCredibilityScore("https://www.bbc.co.uk/news/uk-54234084") == result_score
 
 def test_URL_with_noScore():
-    result_score = {'type': 'credibility', 'score': -1}
+    result_score = {'type': 'credibility', 'outcome':{'score': -1}}
     assert getCredScore.getCredibilityScore("https://www.thecanary.co/") == result_score

@@ -17,7 +17,7 @@ def getCredibilityScore(url):
     p_score = 0
     p_category = '' 
     p_source = ''
-    return_dict = {'type': 'credibility', 'score': -1}
+    return_dict = {'type': 'credibility', 'outcome': {'score': -1} }
 
     aws_secrets = secrets.getSecret("prod/getCredibilityScore/GATEKey", "eu-west-2")
     if "error" in aws_secrets:
@@ -34,14 +34,13 @@ def getCredibilityScore(url):
             p_category = item.get('credibility-category', '')
             p_source = item.get('credibility-source', '')
 
-            return_dict = {'type': 'credibility', 'score': p_score, 'source': p_source, 'category': p_category}
+            return_dict = {'type': 'credibility', 'outcome' : { 'score': p_score, 'source': p_source, 'category': p_category }}
 
             if item['credibility-source'] == 'Media Bias/Fact Check':
                 return(return_dict)
     else:
-        return_dict = {'type': 'credibility', 'score': -1}
+        return_dict = {'type': 'credibility', 'outcome': {'score': -1}}
         return(return_dict)
     
     ## in case there is no 'Media Bias/Fact Check' but a different source:    
     return(return_dict)
-    

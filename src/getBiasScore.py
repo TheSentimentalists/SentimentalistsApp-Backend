@@ -1,5 +1,5 @@
 #Function: getBiasScore
-#Input: credibility, polarity, subjectivity
+#Input: credibility, polarity, subjectivity from SentimentAnalysis, getCredibility
 #Output: BiasScore - indicates possible Bias if an artcle based on credibility, polarity, subjectivity scores
 ## Author: The Sentimentalists / G C Jyothsna
 ## Date: 20/Oct/2020

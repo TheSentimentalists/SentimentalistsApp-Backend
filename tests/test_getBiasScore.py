@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[2]:
-
-
 ## Function: test_getBiasScore.py
 ## Author: The Sentimentalists / G C Jyothsna
 ## Date: 20/10/2020

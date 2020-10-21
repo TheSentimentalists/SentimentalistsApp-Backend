@@ -5,7 +5,7 @@
 ## Uses PYTEST framework
 ###########################################################################################################
 
-import getBiasScore as getBiasScr    # The code to test 
+import getBiasScore as getBiasScr   
 
 def test_getBiasScore_withoutvalid_credibility():
     result_score = {'type': 'bias', 'outcome': {'score': 50.0}}

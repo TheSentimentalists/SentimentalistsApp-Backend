@@ -24,8 +24,27 @@ def lambda_handler(event, context):
     #### Define the object skeleton
     object = {
         "url" : url,
+        "article" : {},
         "results" : []
     }
+
+    try:
+        credibilityresult = cr.getCredibilityScore(url)
+        object['results'].append(credibilityresult)
+    except Exception as e:
+        object['results'].append({'type': 'credibility', 'outcome': {'score': -1}})
+        
+    try:
+        sentanalysisresult = sa.sentimentAnalysis(url)
+        object['article'] = {'header': sentanalysisresult['header'], 
+                             'summary': sentanalysisresult['summary'],
+                             'keywords': sentanalysisresult['keywords']}
+        object['results'].append({'type': 'polarity',     'outcome': sentanalysisresult['polarity']})
+        object['results'].append({'type': 'subjectivity', 'outcome': sentanalysisresult['subjectivity']})
+    except Exception as e:
+        object['article'] = {'error': 'The article could not be retrieved.'}
+        object['results'].append({'type': 'polarity',     'error': 'no data available'})
+        object['results'].append({'type': 'subjectivity', 'error': 'no data available'})
 
     #### Intended object to return:
     # {
@@ -43,20 +62,5 @@ def lambda_handler(event, context):
     #   ]
     # }
 
-    #### Try add each result set
-    try:
-        credibilityresult = cr.getCredibilityScore(url) # {"type" : "reliability", "results" :....}
-        # > maybe this? object['results'].append(credibilityresult)
-    except:
-        # > maybe this? object['results'].append(""
-
-    #### Try add the article data
-    try:
-        # get the article
-        # try append article {"heading":"British credit risk", "summary":"Something..."} to object {}
-    except:
-        # append articler error "article" : {"error":"The article could not be retrieved."}
-
-    
     jsonresponse = json.dumps(object)
     return jsonresponse

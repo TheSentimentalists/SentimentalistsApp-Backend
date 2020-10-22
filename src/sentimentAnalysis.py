@@ -28,12 +28,14 @@ def sentimentAnalysis(url):
     import getText as getTxt
     from textblob import TextBlob
 
-    text = getTxt.getText(url)
+    dict_return = getTxt.getText(url)
     testimonial = ''
 
-    if text != '-1':
+    if dict_return['text'] != '-1':
         ### analysing the text 
-        testimonial = TextBlob(text)
+        testimonial = TextBlob(dict_return['text'])
         ## use the output as "testimonial.sentiment" or "testimonial.sentences"
-    
-    return(testimonial)
+        dict_return['polarity'] = testimonial.sentiment.polarity
+        dict_return['subjectivity'] = testimonial.sentiment.subjectivity
+
+    return(dict_return)

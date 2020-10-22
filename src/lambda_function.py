@@ -21,17 +21,42 @@ def lambda_handler(event, context):
     if (not validators.url(url)):
         return json.dumps({"error" : "Invalid URL"})
     
-    credibilityresult = cr.getCredibilityScore(url)
-    
+    #### Define the object skeleton
     object = {
         "url" : url,
-        "results" : [
-            credibilityresult
-        ]
+        "results" : []
     }
+
+    #### Intended object to return:
+    # {
+    #   'url':'http://bbc.co.uk',
+    #   'article' : {
+    #     'header' : 'An Article Title',
+    #     'summary' : 'The Article Summary',
+    #     'keywords' : ['Boris Johnson', 'Brexit']
+    #   },
+    #   'results' : [
+    #     { 'type' : 'credibility' ...... },
+    #     { 'type' : 'polarity' ..... },
+    #     { 'type' : 'subjectivity' .....},
+    #     { 'type' : 'biasscore' .....}
+    #   ]
+    # }
+
+    #### Try add each result set
+    try:
+        credibilityresult = cr.getCredibilityScore(url) # {"type" : "reliability", "results" :....}
+        # > maybe this? object['results'].append(credibilityresult)
+    except:
+        # > maybe this? object['results'].append(""
+
+    #### Try add the article data
+    try:
+        # get the article
+        # try append article {"heading":"British credit risk", "summary":"Something..."} to object {}
+    except:
+        # append articler error "article" : {"error":"The article could not be retrieved."}
+
     
     jsonresponse = json.dumps(object)
     return jsonresponse
-
-
-print(lambda_handler({"url":"http://bbc.co.uk"}, ""))

@@ -3,4 +3,3 @@ validators
 textblob
 newspaper3k
 nltk
-spacy

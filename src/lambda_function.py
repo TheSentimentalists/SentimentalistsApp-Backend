@@ -1,5 +1,6 @@
 import json
 import getCredibilityScore as cr
+import sentimentAnalysis as sa
 import validators
 
 def lambda_handler(event, context):

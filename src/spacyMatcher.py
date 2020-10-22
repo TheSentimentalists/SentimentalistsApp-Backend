@@ -13,13 +13,15 @@
 
 def spacyMatcher(url, tag): 
     import getText as getTxt
-    import spacy
+    #import spacy
+    import en_core_web_sm
 
     text = getTxt.getText(url)
     ret_set = []
     if text != '-1':
         ### analysing the text 
-        nlp = spacy.load("en_core_web_sm")
+        ###nlp = spacy.load("en_core_web_sm")
+        nlp = en_core_web_sm.load()
         doc = nlp(text)
     
         interestWords = [(ent.text, ent.label_) for ent in doc.ents]

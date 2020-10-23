@@ -39,7 +39,7 @@ def getCredibilityScore(url):
             if item['credibility-source'] == 'Media Bias/Fact Check':
                 return(return_dict)
     else:
-        return_dict = {'type': 'credibility', 'outcome': {'score': -1}}
+        return_dict = {'type': 'credibility', 'outcome': {"error" : "The credibility score was not available."}}
         return(return_dict)
     
     ## in case there is no 'Media Bias/Fact Check' but a different source:    

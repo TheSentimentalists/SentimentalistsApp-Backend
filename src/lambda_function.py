@@ -20,12 +20,11 @@ def lambda_handler(event, context):
         url = 'https://' + url
 
     if (not validators.url(url)):
-        return json.dumps({"error" : "Invalid URL"})
-    
+        return json.dumps({"error" : "The url was bad"})
+
     #### Define the object skeleton
     object = {
         "url" : url,
-        "article" : {},
         "results" : []
     }
 
@@ -33,19 +32,24 @@ def lambda_handler(event, context):
         credibilityresult = cr.getCredibilityScore(url)
         object['results'].append(credibilityresult)
     except Exception as e:
-        object['results'].append({'type': 'credibility', 'outcome': {'score': -1}})
-        
+        object['results'].append({'type': 'credibility', 'outcome': {"error" : "The credibility score was not available."}})
+
     try:
         sentanalysisresult = sa.sentimentAnalysis(url)
-        object['article'] = {'header': sentanalysisresult['header'], 
-                             'summary': sentanalysisresult['summary'],
-                             'keywords': sentanalysisresult['keywords']}
-        object['results'].append({'type': 'polarity',     'outcome': sentanalysisresult['polarity']})
-        object['results'].append({'type': 'subjectivity', 'outcome': sentanalysisresult['subjectivity']})
+        if sentanalysisresult['text'] == '-1':
+            object['article'] = {'error': "The article summary could not be generated"}
+            object['results'].append({'type': 'polarity',     "outcome": {"error" : "The polarity score could not be calculated."}})
+            object['results'].append({'type': 'subjectivity', "outcome": {"error" : "The subjectivity score could not be calculated."}})
+        else:
+            object['article'] = {'header': sentanalysisresult['header'], 
+                                 'summary': sentanalysisresult['summary'],
+                                 'keywords': sentanalysisresult['keywords']}
+            object['results'].append({'type': 'polarity',     'outcome': {"score": sentanalysisresult['polarity']}})
+            object['results'].append({'type': 'subjectivity', 'outcome': {"score": sentanalysisresult['subjectivity']}})
     except Exception as e:
-        object['article'] = {'error': 'The article could not be retrieved.'}
-        object['results'].append({'type': 'polarity',     'error': 'no data available'})
-        object['results'].append({'type': 'subjectivity', 'error': 'no data available'})
+        object['article'] = {'error': "The article summary could not be generated"}
+        object['results'].append({'type': 'polarity',     "outcome": {"error" : "The polarity score could not be calculated."}})
+        object['results'].append({'type': 'subjectivity', "outcome": {"error" : "The subjectivity score could not be calculated."}})
 
     #### Intended object to return:
     # {

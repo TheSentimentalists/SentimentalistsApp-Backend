@@ -67,5 +67,4 @@ def lambda_handler(event, context):
     #   ]
     # }
 
-    jsonresponse = json.dumps(object)
-    return jsonresponse
+    return object

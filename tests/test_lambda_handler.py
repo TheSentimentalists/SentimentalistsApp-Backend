@@ -14,13 +14,13 @@ def test_URL_with_CredScore():
     assert result_dict['results'][0] == result_score
 
 def test_URL_with_NO_CredScore(): 
-    result_score = {"type": "credibility", "outcome":{"score": -1}}
+    result_score = {"type": "credibility", 'outcome': {"error" : "The credibility score was not available."}}
     result_dict = eval(lf.lambda_handler({"url":"https://socialistworker.co.uk/"}, ""))
     assert result_dict['results'][0] == result_score
 
 def test_invalid_URL(): 
     result_dict = eval(lf.lambda_handler({"url":"xxxxx"}, ""))
-    assert result_dict['error'] == 'Invalid URL'
+    assert result_dict['error'] == "The url was bad"
 
 def test_no_https(): 
     result_score = {"type": "credibility", "outcome":{"score": 95.0, "source": "Media Bias/Fact Check", "category": "UNS"}}
@@ -33,12 +33,12 @@ def test_no_www():
     assert result_dict['results'][0] == result_score
 
 def test_SentAnalPolarity():
-    result_score = {"type": "polarity", "outcome": -1.0}
+    result_score = {"type": "polarity", 'outcome': {"score": -1.0}}
     result_dict = eval(lf.lambda_handler({"url":"http://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/today.html"}, ""))
     assert result_dict['results'][1] == result_score
 
 def test_SentAnalSubjectivity():
-    result_score = {"type": "subjectivity", "outcome": 1.0}
+    result_score = {"type": "subjectivity",  'outcome': {"score": 1.0}}
     result_dict = eval(lf.lambda_handler({"url":"http://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/today.html"}, ""))
     assert result_dict['results'][2] == result_score
 

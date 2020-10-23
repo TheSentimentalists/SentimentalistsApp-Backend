@@ -1,5 +1,6 @@
 import json
 import getCredibilityScore as cr
+import sentimentAnalysis as sa
 import validators
 
 def lambda_handler(event, context):
@@ -19,19 +20,52 @@ def lambda_handler(event, context):
         url = 'https://' + url
 
     if (not validators.url(url)):
-        return json.dumps({"error" : "Invalid URL"})
-    
-    credibilityresult = cr.getCredibilityScore(url)
-    
+        return json.dumps({"error" : "The url was bad"})
+
+    #### Define the object skeleton
     object = {
         "url" : url,
-        "results" : [
-            credibilityresult
-        ]
+        "results" : []
     }
-    
+
+    try:
+        credibilityresult = cr.getCredibilityScore(url)
+        object['results'].append(credibilityresult)
+    except Exception as e:
+        object['results'].append({'type': 'credibility', 'outcome': {"error" : "The credibility score was not available."}})
+
+    try:
+        sentanalysisresult = sa.sentimentAnalysis(url)
+        if sentanalysisresult['text'] == '-1':
+            object['article'] = {'error': "The article summary could not be generated"}
+            object['results'].append({'type': 'polarity',     "outcome": {"error" : "The polarity score could not be calculated."}})
+            object['results'].append({'type': 'subjectivity', "outcome": {"error" : "The subjectivity score could not be calculated."}})
+        else:
+            object['article'] = {'header': sentanalysisresult['header'], 
+                                 'summary': sentanalysisresult['summary'],
+                                 'keywords': sentanalysisresult['keywords']}
+            object['results'].append({'type': 'polarity',     'outcome': {"score": sentanalysisresult['polarity']}})
+            object['results'].append({'type': 'subjectivity', 'outcome': {"score": sentanalysisresult['subjectivity']}})
+    except Exception as e:
+        object['article'] = {'error': "The article summary could not be generated"}
+        object['results'].append({'type': 'polarity',     "outcome": {"error" : "The polarity score could not be calculated."}})
+        object['results'].append({'type': 'subjectivity', "outcome": {"error" : "The subjectivity score could not be calculated."}})
+
+    #### Intended object to return:
+    # {
+    #   'url':'http://bbc.co.uk',
+    #   'article' : {
+    #     'header' : 'An Article Title',
+    #     'summary' : 'The Article Summary',
+    #     'keywords' : ['Boris Johnson', 'Brexit']
+    #   },
+    #   'results' : [
+    #     { 'type' : 'credibility' ...... },
+    #     { 'type' : 'polarity' ..... },
+    #     { 'type' : 'subjectivity' .....},
+    #     { 'type' : 'biasscore' .....}
+    #   ]
+    # }
+
     jsonresponse = json.dumps(object)
     return jsonresponse
-
-
-print(lambda_handler({"url":"http://bbc.co.uk"}, ""))

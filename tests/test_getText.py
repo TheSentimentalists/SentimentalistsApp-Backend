@@ -8,12 +8,33 @@
 
 import getText as getTxt   # The code to test
 
-def test_get_Text_from_valid_URL():
+list_kw = ['test', 'day', 'horrible', 'today', 'daytoday']
+dict_return = {'text': "Horrible Day!Today is a horrible day. Today is a horrible day. Today is a horrible day.",
+               'header': "Test", 
+               'summary': 'Horrible Day!\nToday is a horrible day.\nToday is a horrible day.\nToday is a horrible day.',
+               'keywords': list_kw}
+
+def test_getText_check_Text():
     url = "http://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/today.html"
-    Text = getTxt.getText(url)    
-    assert Text == "Horrible Day!Today is a horrible day. Today is a horrible day. Today is a horrible day."
+    getText_dict = getTxt.getText(url)
+    assert  getText_dict['text'] == dict_return['text']
+
+def test_getText_check_Header():
+    url = "http://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/today.html"
+    getText_dict = getTxt.getText(url)
+    assert  getText_dict['header'] == dict_return['header']
+
+def test_getText_check_Summary():
+    url = "http://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/today.html"
+    getText_dict = getTxt.getText(url)
+    assert  getText_dict['summary'] == dict_return['summary']
+
+def test_getText_check_Keywords():
+    url = "http://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/today.html"
+    getText_dict = getTxt.getText(url)
+    assert  getText_dict['keywords'].sort() == dict_return['keywords'].sort()
 
 def test_get_Text_from_Invalid_URL():
-    url = 'https://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/today.html'
-    Text = getTxt.getText(url)    
-    assert Text == '-1'
+    url = "https://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/today.html"
+    getText_dict = getTxt.getText(url)
+    assert  getText_dict['text'] == '-1'

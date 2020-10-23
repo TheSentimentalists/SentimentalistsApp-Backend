@@ -1,17 +1,11 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[2]:
-
-
-## Function: test_getBiasScore.py
+## Function: test_getBiasScore.py 
 ## Author: The Sentimentalists / G C Jyothsna
 ## Date: 20/10/2020
 ## Tests the Function "getBiasScore.py"
 ## Uses PYTEST framework
 ###########################################################################################################
 
-import getBiasScore as getBiasScr    # The code to test 
+import getBiasScore as getBiasScr   
 
 def test_getBiasScore_withoutvalid_credibility():
     result_score = {'type': 'bias', 'outcome': {'score': 50.0}}

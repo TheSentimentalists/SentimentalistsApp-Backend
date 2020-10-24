@@ -10,17 +10,14 @@ def lambda_handler(event, context):
     try:
         url = event['url']
     except KeyError:
-        return {
-            'statusCode': 400,
-            'body': json.dumps("no url")
-        }
+        return {"error" : "No URL provided"}
 
     #### Adding "https://" to the URL if not present
     if (not url.startswith('https://') and not url.startswith('http://')):
         url = 'https://' + url
 
     if (not validators.url(url)):
-        return json.dumps({"error" : "The url was bad"})
+        return {"error" : "The url was bad"}
 
     #### Define the object skeleton
     object = {
@@ -68,3 +65,6 @@ def lambda_handler(event, context):
     # }
 
     return object
+
+
+print(lambda_handler({"url":"http://www.bbc.co.uk/"}, ""))

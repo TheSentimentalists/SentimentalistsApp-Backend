@@ -32,9 +32,7 @@ def lambda_handler(event, context):
         object['results'].append({'type': 'credibility', 'outcome': {"error" : "The credibility score was not available."}})
 
     try:
-        console.log("lambda_function: Getting sentiment analysis...")
         sentanalysisresult = sa.sentimentAnalysis(url)
-        console.log("lambda_function: Dumping result:")
         console.log(sentanalysisresult)
         if sentanalysisresult['text'] == '-1':
             object['article'] = {'error': "The article summary could not be generated"}
@@ -68,6 +66,3 @@ def lambda_handler(event, context):
     # }
 
     return object
-
-
-print(lambda_handler({"url":"http://www.bbc.co.uk/"}, ""))

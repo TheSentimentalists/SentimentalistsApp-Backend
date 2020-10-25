@@ -33,7 +33,6 @@ def lambda_handler(event, context):
 
     try:
         sentanalysisresult = sa.sentimentAnalysis(url)
-        console.log(sentanalysisresult)
         if sentanalysisresult['text'] == '-1':
             object['article'] = {'error': "The article summary could not be generated"}
             object['results'].append({'type': 'polarity',     "outcome": {"error" : "The polarity score could not be calculated."}})

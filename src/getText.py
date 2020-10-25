@@ -34,7 +34,7 @@ def getText(url):
         article.parse()
     ### Exception - e.g if URL is "valid" but inexistent, no text will be retrieved
     except Exception as e: 
-        print("getText: Getting article failed: " + e)
+        print("getText: Getting article failed: " + str(e))
         return  {'text': '-1',
                  'header': '', 
                  'summary': '',

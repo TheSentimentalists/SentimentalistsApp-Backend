@@ -31,12 +31,12 @@ def lambda_handler(event, context):
     except Exception as e:
         object['results'].append({'type': 'credibility', 'outcome': {"error" : "The credibility score was not available."}})
 
+    print("lambda_function: Getting sentiment analysis...")
     try:
-        console.log("lambda_function: Getting sentiment analysis...")
         sentanalysisresult = sa.sentimentAnalysis(url)
-        console.log("lambda_function: Dumping result:")
-        console.log(sentanalysisresult)
         if sentanalysisresult['text'] == '-1':
+            print("lambda_function: Dumping result:")
+            print(sentanalysisresult)
             object['article'] = {'error': "The article summary could not be generated"}
             object['results'].append({'type': 'polarity',     "outcome": {"error" : "The polarity score could not be calculated."}})
             object['results'].append({'type': 'subjectivity', "outcome": {"error" : "The subjectivity score could not be calculated."}})
@@ -47,6 +47,8 @@ def lambda_handler(event, context):
             object['results'].append({'type': 'polarity',     'outcome': {"score": sentanalysisresult['polarity']}})
             object['results'].append({'type': 'subjectivity', 'outcome': {"score": sentanalysisresult['subjectivity']}})
     except Exception as e:
+        print("lambda_function: Dumping result:")
+        print(sentanalysisresult)
         object['article'] = {'error': "The article summary could not be generated"}
         object['results'].append({'type': 'polarity',     "outcome": {"error" : "The polarity score could not be calculated."}})
         object['results'].append({'type': 'subjectivity', "outcome": {"error" : "The subjectivity score could not be calculated."}})

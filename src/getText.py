@@ -36,15 +36,26 @@ def getText(url):
     logger.info(f'getText: initialised Article and ntlk')
     ### Getting the ARTICLE
     try:
-        print("getText: Initialising Article...")
+        logger.info('getText: Initialising Article...')
         article = Article(url)
-        print("getText: Downloading Article...")
+        logger.info('getText: Downloading Article...')
         article.download()
-        print("getText: Parsing Article...")
+        logger.info('getText: Parsing Article...')
         article.parse()
     ### Exception - e.g if URL is "valid" but inexistent, no text will be retrieved
     except Exception as e: 
-        print("getText: Exception: " + str(e))
+
+        logger.info(f'getText: Could not process article result.')
+
+        exception_type, exception_value, exception_traceback = sys.exc_info()
+        traceback_string = traceback.format_exception(exception_type, exception_value, exception_traceback)
+        err_msg = json.dumps({
+            "errorType": exception_type.__name__,
+            "errorMessage": str(exception_value),
+            "stackTrace": traceback_string
+        })
+        logger.error(err_msg)
+        
         return  {'text': '-1',
                  'header': '', 
                  'summary': '',

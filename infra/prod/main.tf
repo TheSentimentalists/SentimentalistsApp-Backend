@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket  = "sentimentalists-terraform"
-    key     = "backend-prod"
-    region  = "eu-west-2"
+    bucket = "sentimentalists-terraform"
+    key    = "backend-prod"
+    region = "eu-west-2"
   }
   required_providers {
     aws = {
@@ -12,16 +12,16 @@ terraform {
 }
 
 provider "aws" {
-  region  = "eu-west-2"
+  region = "eu-west-2"
 }
 
 data "terraform_remote_state" "apig" {
-    backend = "s3"
-    config = {
-      bucket  = "sentimentalists-terraform"
-      key     = "shared-prod"
-      region  = "eu-west-2"
-    }
+  backend = "s3"
+  config = {
+    bucket = "sentimentalists-terraform"
+    key    = "shared-prod"
+    region = "eu-west-2"
+  }
 }
 
 module "backend-lambda" {
@@ -41,8 +41,8 @@ module "backend-apig-lambdaresource" {
 }
 
 module "backend-apig-deployment" {
-  source               = "github.com/TheSentimentalists/SentimentalistsApp-Infrastructure/terraform/modules/apigateway_deploy"
-  apig_id              = data.terraform_remote_state.apig.outputs.apig_id
-  apig_stage           = "prod"
-  depends_on           = [module.backend-apig-lambdaresource]
+  source     = "github.com/TheSentimentalists/SentimentalistsApp-Infrastructure/terraform/modules/apigateway_deploy"
+  apig_id    = data.terraform_remote_state.apig.outputs.apig_id
+  apig_stage = "prod"
+  depends_on = [module.backend-apig-lambdaresource]
 }

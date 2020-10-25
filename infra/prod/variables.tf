@@ -1,5 +1,5 @@
 # Payload
 variable "payload" {
-  type = string
+  type    = string
   default = "../../src/payload.zip"
 }

@@ -28,11 +28,15 @@ def getText(url):
     nltk.download('punkt')
     ### Getting the ARTICLE
     try:
+        print("getText: Initialising Article...")
         article = Article(url)
+        print("getText: Downloading Article...")
         article.download()
+        print("getText: Parsing Article...")
         article.parse()
     ### Exception - e.g if URL is "valid" but inexistent, no text will be retrieved
     except Exception as e: 
+        print("getText: Exception: " + str(e))
         return  {'text': '-1',
                  'header': '', 
                  'summary': '',

@@ -1,6 +1,7 @@
 import sys
 import logging
 import traceback
+import json
 
 ## Function: getText
 ## Input: URL
@@ -55,7 +56,6 @@ def getText(url):
             "stackTrace": traceback_string
         })
         logger.error(err_msg)
-        
         return  {'text': '-1',
                  'header': '', 
                  'summary': '',

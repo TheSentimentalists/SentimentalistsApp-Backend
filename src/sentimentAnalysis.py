@@ -1,3 +1,7 @@
+import sys
+import logging
+import traceback
+
 ## Function: sentimentAnalysis
 ## Input: URL
 ## Output: Analysed Text (or testimonial)
@@ -24,11 +28,19 @@
 ##        >>> Chief Scientific Officer Sir Patrick Vallance says measures must be taken to stop the...
 ###########################################################################################################
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
 def sentimentAnalysis(url):
     import getText as getTxt
     from textblob import TextBlob
 
+    logger.info(f'SentimentAnalysis: initialised')
+
+    print("sentimentAnalysis: Trying getText()")
     dict_return = getTxt.getText(url)
+    print("sentimentAnalysis: Dumping return:")
+    print(dict_return)
     testimonial = ''
 
     if dict_return['text'] != '-1':

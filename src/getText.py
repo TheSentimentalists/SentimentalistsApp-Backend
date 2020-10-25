@@ -27,15 +27,12 @@ def getText(url):
     import nltk
     nltk.download('punkt')
     ### Getting the ARTICLE
-
-    print("getText: Getting article...")
     try:
         article = Article(url)
         article.download()
         article.parse()
     ### Exception - e.g if URL is "valid" but inexistent, no text will be retrieved
     except Exception as e: 
-        print("getText: Getting article failed: " + str(e))
         return  {'text': '-1',
                  'header': '', 
                  'summary': '',
@@ -52,7 +49,6 @@ def getText(url):
     text = text.replace("Media playback is unsupported on your device ", "")
     text = text.replace("Media caption ", "")
 
-    print("getText: returning " + article.title)
     return  {'text': text,
              'header': article.title, 
              'summary': article.summary,

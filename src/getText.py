@@ -1,3 +1,7 @@
+import sys
+import logging
+import traceback
+
 ## Function: getText
 ## Input: URL
 ## Output: Unformatted TEXT extracted from the URL and ARTICLE
@@ -22,10 +26,14 @@
 ##       month after that. On Monday, a further 4,368 daily cases were reported in the UK, up from 3,899....
 ###########################################################################################################
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
 def getText(url):
     from newspaper import Article 
     import nltk
     nltk.download('punkt')
+    logger.info(f'getText: initialised Article and ntlk')
     ### Getting the ARTICLE
     try:
         print("getText: Initialising Article...")

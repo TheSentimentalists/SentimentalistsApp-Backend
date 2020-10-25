@@ -27,8 +27,9 @@ def getText(url):
     import nltk
     nltk.download('punkt')
     ### Getting the ARTICLE
+
+    print("getText: Getting article...")
     try:
-        print("getText: Getting article...")
         article = Article(url)
         article.download()
         article.parse()

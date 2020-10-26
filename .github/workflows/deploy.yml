@@ -32,6 +32,10 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt --target .; fi
         if [ -f build-requirements.txt ]; then pip install -r build-requirements.txt; fi
 
+    - name: Run Build Script
+      working-directory: ./utils
+      run: sh buildscript.sh
+
     - name: Run Tests
       working-directory: ./src
       run: |

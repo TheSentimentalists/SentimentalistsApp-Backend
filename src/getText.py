@@ -32,8 +32,7 @@ logger.setLevel(logging.INFO)
 def getText(url):
     from newspaper import Article 
     import nltk
-    nltk.data.path.append("/tmp")
-    nltk.download("punkt", download_dir = "/tmp")
+    nltk.data.path.append("./nltk_data")
     
     logger.info(f'getText: initialised Article and ntlk')
     ### Getting the ARTICLE

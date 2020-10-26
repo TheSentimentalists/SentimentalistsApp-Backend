@@ -86,11 +86,11 @@ def lambda_handler(event, context):
         })
         logger.error(err_msg)
 
-    xray_recorder.end_subsegment()
-
         object['article'] = {'error': "The article summary could not be generated"}
         object['results'].append({'type': 'polarity',     "outcome": {"error" : "The polarity score could not be calculated."}})
         object['results'].append({'type': 'objectivity', "outcome": {"error" : "The objectivity score could not be calculated."}})
+
+    xray_recorder.end_subsegment()
 
     #### Intended object to return:
     # {

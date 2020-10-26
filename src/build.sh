@@ -2,8 +2,7 @@
 
 # Install modules into ./cache/ folder
 if [ -f requirements.txt ]; then 
-pip3 install -r requirements.txt --target ./cache/; 
-mv ./cache/* .
+pip3 install -r requirements.txt --target . --cache-dir ../.cache; 
 fi
 
 

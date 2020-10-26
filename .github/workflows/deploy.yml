@@ -28,6 +28,14 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v2
 
+    - name: Restore Pip Cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          .cache
+          src/nltk_data
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+
     - name: Run Build Script
       working-directory: ./src
       run: sh build.sh

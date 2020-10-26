@@ -17,7 +17,7 @@ on:
     - 'infra/**'
 
 jobs:
-  build:
+  Build-Test:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '#noci')"
     container: lambci/lambda:build-python3.8
@@ -33,7 +33,6 @@ jobs:
         if [ -f build-requirements.txt ]; then pip install -r build-requirements.txt; fi
 
     - name: Run Tests
-      if: "!contains(github.event.head_commit.message, '#skiptests')"
       working-directory: ./src
       run: |
         pip install pytest
@@ -58,7 +57,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_TERRAFORM_ACCESS_SECRET }}
 
   Deploy:
-    needs: [build]
+    needs: [Build-Test]
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '#noci')"
 
@@ -91,7 +90,7 @@ jobs:
       if: github.event_name == 'pull_request'
       working-directory: ./infra/prod
       id: plan
-      run: terraform plan -no-color -var="payload=../../src/payload.zip"
+      run: terraform plan -no-color -var="s3_bucket=${{ secrets.AWS_GITHUB_BUILDS_S3 }}" -var="s3_key=app-sentimentalists-backend-prod.zip"
       continue-on-error: true
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_TERRAFORM_ACCESS_ID }}

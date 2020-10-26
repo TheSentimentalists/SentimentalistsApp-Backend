@@ -29,11 +29,11 @@ jobs:
     - name: Install dependencies
       working-directory: ./src
       run: |
-        python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt --target .; fi
         if [ -f build-requirements.txt ]; then pip install -r build-requirements.txt; fi
 
     - name: Run Tests
+      if: "!contains(github.event.head_commit.message, '#skiptests')"
       working-directory: ./src
       run: |
         pip install pytest
@@ -53,11 +53,12 @@ jobs:
         FILE: ./src/payload.zip
         AWS_REGION: 'eu-west-2'
         S3_BUCKET: ${{ secrets.AWS_GITHUB_BUILDS_S3 }}
-        S3_KEY: 'app-sentimentalists-backend-prod'
+        S3_KEY: 'app-sentimentalists-backend-prod.zip'
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_TERRAFORM_ACCESS_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_TERRAFORM_ACCESS_SECRET }}
 
   Deploy:
+    needs: [build]
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '#noci')"
 

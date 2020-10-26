@@ -8,6 +8,7 @@ on:
     - 'tests/**'
     - 'src/**'
     - 'infra/**'
+    - 'utils/**'
   pull_request:
     branches:
     - master
@@ -15,6 +16,7 @@ on:
     - 'tests/**'
     - 'src/**'
     - 'infra/**'
+    - 'utils/**'
 
 jobs:
   Build-Test:

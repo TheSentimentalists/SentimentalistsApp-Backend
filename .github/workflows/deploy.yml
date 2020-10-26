@@ -87,7 +87,7 @@ jobs:
       if: github.event_name == 'pull_request'
       working-directory: ./infra/prod
       id: validate
-      run: terraform validate -no-color
+      run: terraform validate -no-color -var="s3_bucket=${{ secrets.AWS_GITHUB_BUILDS_S3 }}" -var="s3_key=app-sentimentalists-backend-prod-${{ github.sha }}.zip"
 
     - name: Terraform Plan
       if: github.event_name == 'pull_request'

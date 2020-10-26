@@ -52,7 +52,7 @@ jobs:
         FILE: ./src/payload.zip
         AWS_REGION: 'eu-west-2'
         S3_BUCKET: ${{ secrets.AWS_GITHUB_BUILDS_S3 }}
-        S3_KEY: 'app-sentimentalists-backend-prod.zip'
+        S3_KEY: 'app-sentimentalists-backend-prod-${{ github.sha }}.zip'
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_TERRAFORM_ACCESS_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_TERRAFORM_ACCESS_SECRET }}
 
@@ -93,7 +93,7 @@ jobs:
       if: github.event_name == 'pull_request'
       working-directory: ./infra/prod
       id: plan
-      run: terraform plan -no-color -var="s3_bucket=${{ secrets.AWS_GITHUB_BUILDS_S3 }}" -var="s3_key=app-sentimentalists-backend-prod.zip"
+      run: terraform plan -no-color -var="s3_bucket=${{ secrets.AWS_GITHUB_BUILDS_S3 }}" -var="s3_key=app-sentimentalists-backend-prod-${{ github.sha }}.zip"
       continue-on-error: true
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_TERRAFORM_ACCESS_ID }}
@@ -127,7 +127,7 @@ jobs:
       if: github.event_name == 'push'
       working-directory: ./infra/prod
       id: apply
-      run: terraform apply -auto-approve -no-color -var="s3_bucket=${{ secrets.AWS_GITHUB_BUILDS_S3 }}" -var="s3_key=app-sentimentalists-backend-prod.zip"
+      run: terraform apply -auto-approve -no-color -var="s3_bucket=${{ secrets.AWS_GITHUB_BUILDS_S3 }}" -var="s3_key=app-sentimentalists-backend-prod-${{ github.sha }}.zip"
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_TERRAFORM_ACCESS_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_TERRAFORM_ACCESS_SECRET }}

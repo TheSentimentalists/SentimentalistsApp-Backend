@@ -14,9 +14,9 @@ def lambda_handler(event, context):
 
     segment = xray_recorder.begin_segment('lambda_handler')
 
-## event must be a dict with a url key, and context can be nothing:
-## lambda_handler({"url":"http://bbc.co.uk"}, "")
-    
+    ## event must be a dict with a url key, and context can be nothing:
+    ## lambda_handler({"url":"http://bbc.co.uk"}, "")
+
     subsegment = xray_recorder.begin_subsegment('check_url')
     logger.info(f'LambdaFunction: Checking we have a URL...')
     try:
@@ -70,8 +70,8 @@ def lambda_handler(event, context):
             object['results'].append({'type': 'objectivity', "outcome": {"error" : "The objectivity score could not be calculated."}})
         else:
             object['article'] = {'header': sentanalysisresult['header'], 
-                                 'summary': sentanalysisresult['summary'],
-                                 'keywords': sentanalysisresult['keywords']}
+                                    'summary': sentanalysisresult['summary'],
+                                    'keywords': sentanalysisresult['keywords']}
             object['results'].append({'type': 'polarity',     'outcome': {"score": sentanalysisresult['polarity']}})
             object['results'].append({'type': 'objectivity', 'outcome': {"score": abs(1 - sentanalysisresult['subjectivity'])}})
     except Exception as e:
@@ -85,6 +85,7 @@ def lambda_handler(event, context):
             "stackTrace": traceback_string
         })
         logger.error(err_msg)
+
     xray_recorder.end_subsegment()
 
         object['article'] = {'error': "The article summary could not be generated"}

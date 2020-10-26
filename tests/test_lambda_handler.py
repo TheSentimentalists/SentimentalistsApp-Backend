@@ -40,7 +40,8 @@ def test_SentAnalPolarity():
     assert result_dict['results'][1] == result_score
 
 def test_SentAnalSubjectivity():
-    result_score = {"type": "subjectivity",  'outcome': {"score": 1.0}}
+    #result_score = {"type": "subjectivity",  'outcome': {"score": 1.0}}
+    result_score = {"type": "objectivity",  'outcome': {"score": 0.0}}
     result_dict = lf.lambda_handler({"url":"http://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/today.html"}, "")
     assert result_dict['results'][2] == result_score
 

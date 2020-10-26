@@ -36,17 +36,17 @@ def lambda_handler(event, context):
         if sentanalysisresult['text'] == '-1':
             object['article'] = {'error': "The article summary could not be generated"}
             object['results'].append({'type': 'polarity',     "outcome": {"error" : "The polarity score could not be calculated."}})
-            object['results'].append({'type': 'subjectivity', "outcome": {"error" : "The subjectivity score could not be calculated."}})
+            object['results'].append({'type': 'objectivity', "outcome": {"error" : "The objectivity score could not be calculated."}})
         else:
             object['article'] = {'header': sentanalysisresult['header'], 
                                  'summary': sentanalysisresult['summary'],
                                  'keywords': sentanalysisresult['keywords']}
             object['results'].append({'type': 'polarity',     'outcome': {"score": sentanalysisresult['polarity']}})
-            object['results'].append({'type': 'subjectivity', 'outcome': {"score": sentanalysisresult['subjectivity']}})
+            object['results'].append({'type': 'objectivity', 'outcome': {"score": abs(1 - sentanalysisresult['subjectivity'])}})
     except Exception as e:
         object['article'] = {'error': "The article summary could not be generated"}
         object['results'].append({'type': 'polarity',     "outcome": {"error" : "The polarity score could not be calculated."}})
-        object['results'].append({'type': 'subjectivity', "outcome": {"error" : "The subjectivity score could not be calculated."}})
+        object['results'].append({'type': 'objectivity', "outcome": {"error" : "The objectivity score could not be calculated."}})
 
     #### Intended object to return:
     # {
@@ -59,7 +59,7 @@ def lambda_handler(event, context):
     #   'results' : [
     #     { 'type' : 'credibility' ...... },
     #     { 'type' : 'polarity' ..... },
-    #     { 'type' : 'subjectivity' .....},
+    #     { 'type' : 'objectivity' .....},
     #     { 'type' : 'biasscore' .....}
     #   ]
     # }

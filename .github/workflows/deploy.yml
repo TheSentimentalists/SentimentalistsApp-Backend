@@ -28,15 +28,9 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v2
 
-    - name: Install dependencies
-      working-directory: ./src
-      run: |
-        if [ -f requirements.txt ]; then pip install -r requirements.txt --target .; fi
-        if [ -f build-requirements.txt ]; then pip install -r build-requirements.txt; fi
-
     - name: Run Build Script
-      working-directory: ./utils
-      run: sh buildscript.sh
+      working-directory: ./src
+      run: sh build.sh
 
     - name: Run Tests
       working-directory: ./src

@@ -46,7 +46,22 @@ jobs:
       working-directory: ./src
       run: |
         zip -r9 payload.zip .
+    
+    - name: Upload file to bucket
+      uses: zdurham/s3-upload-github-action@master
+      env:
+        FILE: ./src/payload.zip
+        AWS_REGION: 'eu-west-2'
+        S3_BUCKET: ${{ secrets.AWS_GITHUB_BUILDS_S3 }}
+        S3_KEY: 'app-sentimentalists-backend-prod'
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_TERRAFORM_ACCESS_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_TERRAFORM_ACCESS_SECRET }}
 
+  Deploy:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '#noci')"
+
+    steps:
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v1
 

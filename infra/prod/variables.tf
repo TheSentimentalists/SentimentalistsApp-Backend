@@ -1,5 +1,8 @@
-# Payload
-variable "payload" {
+# S3 Bucket and Key
+variable "s3_key" {
   type = string
-  default = "../../src/payload.zip"
+}
+
+variable "s3_bucket" {
+  type = string
 }

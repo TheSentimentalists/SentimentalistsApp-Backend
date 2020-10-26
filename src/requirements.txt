@@ -2,4 +2,4 @@ requests
 validators
 textblob
 newspaper3k
-nltk
+regex==2019.11.1

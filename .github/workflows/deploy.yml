@@ -28,6 +28,14 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v2
 
+    - uses: chrnorm/deployment-action@releases/v1
+      name: Create GitHub deployment
+      id: githubdeploy
+      with:
+        token: ${{ secrets.GITHUB_TOKEN}}
+        description: 'Test'
+        environment: staging
+
     - name: Restore Pip Cache
       uses: actions/cache@v2
       with:
@@ -63,6 +71,15 @@ jobs:
         S3_KEY: 'app-sentimentalists-backend-prod-${{ github.sha }}.zip'
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_TERRAFORM_ACCESS_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_TERRAFORM_ACCESS_SECRET }}
+
+    - name: Update deployment status (success)
+      if: success()
+      uses: chrnorm/deployment-status@releases/v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        target_url: https://${{ secrets.AWS_GITHUB_BUILDS_S3 }}.s3.eu-west-2.amazonaws.com/app-sentimentalists-backend-prod-${{ github.sha }}.zip
+        state: 'success'
+        deployment_id: ${{ steps.githubdeploy.outputs.deployment_id }}
 
   Deploy:
     needs: [Build-Test]

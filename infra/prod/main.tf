@@ -28,7 +28,8 @@ module "backend-lambda" {
   source         = "github.com/TheSentimentalists/SentimentalistsApp-Infrastructure/terraform/modules/lambda"
   lambda_stage   = "prod"
   lambda_name    = "sentimentalists-backend"
-  lambda_payload = var.payload
+  s3_key         = var.s3_key
+  s3_bucket      = var.s3_bucket
 }
 
 module "backend-apig-lambdaresource" {

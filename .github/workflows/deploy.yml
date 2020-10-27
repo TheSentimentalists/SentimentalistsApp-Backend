@@ -8,6 +8,7 @@ on:
     - 'tests/**'
     - 'src/**'
     - 'infra/**'
+    - 'utils/**'
   pull_request:
     branches:
     - master
@@ -15,6 +16,7 @@ on:
     - 'tests/**'
     - 'src/**'
     - 'infra/**'
+    - 'utils/**'
 
 jobs:
   Build-Test:
@@ -26,11 +28,17 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v2
 
-    - name: Install dependencies
+    - name: Restore Pip Cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          .cache
+          src/nltk_data
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+
+    - name: Run Build Script
       working-directory: ./src
-      run: |
-        if [ -f requirements.txt ]; then pip install -r requirements.txt --target .; fi
-        if [ -f build-requirements.txt ]; then pip install -r build-requirements.txt; fi
+      run: sh build.sh
 
     - name: Run Tests
       working-directory: ./src

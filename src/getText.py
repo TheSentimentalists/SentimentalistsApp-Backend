@@ -1,6 +1,9 @@
+from aws_xray_sdk.core import xray_recorder
 import sys
 import logging
 import traceback
+from newspaper import Article 
+import nltk
 
 ## Function: getText
 ## Input: URL
@@ -28,22 +31,28 @@ import traceback
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
+nltk.data.path.append("./nltk_data")
 
+@xray_recorder.capture('getText')
 def getText(url):
-    from newspaper import Article 
-    import nltk
-    nltk.data.path.append("/tmp")
-    nltk.download("punkt", download_dir = "/tmp")
     
     logger.info(f'getText: initialised Article and ntlk')
     ### Getting the ARTICLE
     try:
         print("getText: Initialising Article...")
+        subsegment = xray_recorder.begin_subsegment('getText: init article')
         article = Article(url)
+        xray_recorder.end_subsegment()
+
         print("getText: Downloading Article...")
+        subsegment = xray_recorder.begin_subsegment('getText: download article')
         article.download()
+        xray_recorder.end_subsegment()
+
         print("getText: Parsing Article...")
+        subsegment = xray_recorder.begin_subsegment('getText: parse article')
         article.parse()
+        xray_recorder.end_subsegment()
     ### Exception - e.g if URL is "valid" but inexistent, no text will be retrieved
     except Exception as e: 
         print("getText: Exception: " + str(e))
@@ -52,7 +61,9 @@ def getText(url):
                  'summary': '',
                  'keywords':''}
 
+    subsegment = xray_recorder.begin_subsegment('getText: nlp article')
     article.nlp()
+    xray_recorder.end_subsegment()
     text = article.text
 
     ### Removing unwanted formatting
@@ -62,6 +73,7 @@ def getText(url):
     text = text.replace("Image caption ", "")
     text = text.replace("Media playback is unsupported on your device ", "")
     text = text.replace("Media caption ", "")
+
 
     return  {'text': text,
              'header': article.title, 

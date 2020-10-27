@@ -1,6 +1,6 @@
 # SentimentalistsApp-Backend
 
-## Folder Sctructure:
+## Folder Structure:
 
 The SENTIMENTALISTSAPP-BACKEND is divided into the following folders:
 

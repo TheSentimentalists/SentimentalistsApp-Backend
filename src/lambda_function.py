@@ -3,6 +3,7 @@ from aws_xray_sdk.core import patch
 import json
 import getCredibilityScore as cr
 import sentimentAnalysis as sa
+import getBiasScore as bs
 import validators
 import sys
 import logging
@@ -50,15 +51,18 @@ def lambda_handler(event, context):
     }
 
     logger.info(f'LambdaFunction: Trying to get credibility score...')
+    credibilityresult = {}
     try:
         credibilityresult = cr.getCredibilityScore(url)
         object['results'].append(credibilityresult)
     except Exception as e:
         logger.info(f'LambdaFunction: Could not get Credibility Score.')
         logger.info(e)
-        object['results'].append({'type': 'credibility', 'outcome': {"error" : "The credibility score was not available."}})
+        credibilityresult = {'type': 'credibility', 'outcome': {"error" : "The credibility score was not available."}}
+        object['results'].append(credibilityresult)
 
     logger.info(f'LambdaFunction: Trying to get sentimentAnalysis score...')
+    sentanalysisresult = {}
     try:
         sentanalysisresult = sa.sentimentAnalysis(url)
         if sentanalysisresult['text'] == '-1':
@@ -87,6 +91,19 @@ def lambda_handler(event, context):
         object['article'] = {'error': "The article summary could not be generated"}
         object['results'].append({'type': 'polarity',     "outcome": {"error" : "The polarity score could not be calculated."}})
         object['results'].append({'type': 'objectivity', "outcome": {"error" : "The objectivity score could not be calculated."}})
+
+    logger.info(f'LambdaFunction: Trying to get bias score...')
+    if 'error' in credibilityresult['outcome']:
+        cred_input = -1
+    else:
+        cred_input = credibilityresult['outcome']['score']
+    try:
+        biasscoreresult = bs.getBiasScore(cred_input, sentanalysisresult['polarity'], sentanalysisresult['subjectivity'])
+        object['results'].append(biasscoreresult)
+    except Exception as e:
+        logger.info(f'LambdaFunction: Could not get Bias Score.')
+        logger.info(e)
+        object['results'].append({'type': 'bias', 'outcome': {"error" : "The bias score was not available."}})
 
     #### Intended object to return:
     # {

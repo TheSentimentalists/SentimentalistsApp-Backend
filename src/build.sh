@@ -11,3 +11,6 @@ if [ -f build-requirements.txt ]; then pip3 install -r build-requirements.txt; f
 
 # Run downloadPunkt.py to get that too...
 python3 downloadPunkt.py
+
+# Set XRAY to false in build environment
+export AWS_XRAY_SDK_ENABLED=false

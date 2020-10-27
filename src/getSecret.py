@@ -9,11 +9,13 @@
 ## Otherwise, it will return an 'error'.
 ###########################################################################################################
 
+from aws_xray_sdk.core import xray_recorder
 import boto3
 import base64
 import json
 from botocore.exceptions import ClientError
 
+@xray_recorder.capture('getSecret')
 def getSecret(secret_name, region_name):
 
     # Create a Secrets Manager client
@@ -22,7 +24,7 @@ def getSecret(secret_name, region_name):
         service_name='secretsmanager',
         region_name=region_name
     )
-
+    
     # Try obtain the secret, handle a few exceptions
     try:
         get_secret_value_response = client.get_secret_value(

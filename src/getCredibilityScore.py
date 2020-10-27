@@ -10,6 +10,9 @@
 ## Otherwise it will a different source that rated the website, or return "-1" in case no rating is found.
 ###########################################################################################################
 
+from aws_xray_sdk.core import xray_recorder
+
+@xray_recorder.capture('getCredibilityScore')
 def getCredibilityScore(url):
     import requests
     import getSecret as secrets

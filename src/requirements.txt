@@ -3,3 +3,4 @@ validators
 textblob
 newspaper3k
 regex==2019.11.1
+aws-xray-sdk

@@ -1,3 +1,5 @@
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.core import patch
 import json
 import getCredibilityScore as cr
 import sentimentAnalysis as sa
@@ -5,19 +7,19 @@ import validators
 import sys
 import logging
 import traceback
-from aws_xray_sdk.core import xray_recorder
+
+segment = xray_recorder.begin_segment('lambda_handler')
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+@xray_recorder.capture('lambda_handler')
 def lambda_handler(event, context):
-
-    segment = xray_recorder.begin_segment('lambda_handler')
 
     ## event must be a dict with a url key, and context can be nothing:
     ## lambda_handler({"url":"http://bbc.co.uk"}, "")
 
-    subsegment = xray_recorder.begin_subsegment('check_url')
+    subsegment = xray_recorder.begin_subsegment('lambda_function: check URL')
     logger.info(f'LambdaFunction: Checking we have a URL...')
     try:
         url = event['url']
@@ -29,13 +31,13 @@ def lambda_handler(event, context):
 
     #### Adding "https://" to the URL if not present
     logger.info(f'LambdaFunction: Checking URL has protocol...')
-    subsegment = xray_recorder.begin_subsegment('check_url_protocol')
+    subsegment = xray_recorder.begin_subsegment('lambda_function: check URL protocol')
     if (not url.startswith('https://') and not url.startswith('http://')):
         url = 'https://' + url
     xray_recorder.end_subsegment()
 
     logger.info(f'LambdaFunction: Validating URL...')
-    subsegment = xray_recorder.begin_subsegment('validate_url')
+    subsegment = xray_recorder.begin_subsegment('lambda_function: validate URL')
     if (not validators.url(url)):
         logger.info(f'LambdaFunction: URL is not valid.')
         return {"error" : "The url was bad"}
@@ -47,7 +49,6 @@ def lambda_handler(event, context):
         "results" : []
     }
 
-    subsegment = xray_recorder.begin_subsegment('getcredibilityscore')
     logger.info(f'LambdaFunction: Trying to get credibility score...')
     try:
         credibilityresult = cr.getCredibilityScore(url)
@@ -56,9 +57,7 @@ def lambda_handler(event, context):
         logger.info(f'LambdaFunction: Could not get Credibility Score.')
         logger.info(e)
         object['results'].append({'type': 'credibility', 'outcome': {"error" : "The credibility score was not available."}})
-    xray_recorder.end_subsegment()
 
-    subsegment = xray_recorder.begin_subsegment('getSentimentAnalysis')
     logger.info(f'LambdaFunction: Trying to get sentimentAnalysis score...')
     try:
         sentanalysisresult = sa.sentimentAnalysis(url)
@@ -76,7 +75,6 @@ def lambda_handler(event, context):
             object['results'].append({'type': 'objectivity', 'outcome': {"score": abs(1 - sentanalysisresult['subjectivity'])}})
     except Exception as e:
         logger.info(f'LambdaFunction: Could not get sentimentAnalysis Score.')
-
         exception_type, exception_value, exception_traceback = sys.exc_info()
         traceback_string = traceback.format_exception(exception_type, exception_value, exception_traceback)
         err_msg = json.dumps({
@@ -89,8 +87,6 @@ def lambda_handler(event, context):
         object['article'] = {'error': "The article summary could not be generated"}
         object['results'].append({'type': 'polarity',     "outcome": {"error" : "The polarity score could not be calculated."}})
         object['results'].append({'type': 'objectivity', "outcome": {"error" : "The objectivity score could not be calculated."}})
-
-    xray_recorder.end_subsegment()
 
     #### Intended object to return:
     # {
@@ -108,6 +104,6 @@ def lambda_handler(event, context):
     #   ]
     # }
 
-    xray_recorder.end_segment()
-
     return object
+
+xray_recorder.end_segment()

@@ -1,6 +1,9 @@
+from aws_xray_sdk.core import xray_recorder
 import sys
 import logging
 import traceback
+import getText as getTxt
+from textblob import TextBlob
 
 ## Function: sentimentAnalysis
 ## Input: URL
@@ -28,12 +31,12 @@ import traceback
 ##        >>> Chief Scientific Officer Sir Patrick Vallance says measures must be taken to stop the...
 ###########################################################################################################
 
+
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+@xray_recorder.capture('sentimentAnalysis')
 def sentimentAnalysis(url):
-    import getText as getTxt
-    from textblob import TextBlob
 
     logger.info(f'SentimentAnalysis: initialised')
 

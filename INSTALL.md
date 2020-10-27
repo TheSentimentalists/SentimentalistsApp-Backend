@@ -9,6 +9,7 @@ $ conda install -c conda-forge nltk <br />
 $ conda install -c conda-forge boto3<br />
 $ pip install vaderSentiment<br />
 $ python -m ipykernel install<br />
+$ pip install aws-xray-sdk<br /> 
 
 PS: Some of the packages below, such as vaderSentiment, were used in our tests but not implemented in our final code
 
@@ -18,11 +19,14 @@ $ python -m spacy download en_core_web_sm<br />
 $ python -m spacy download en_core_web_md<br />
 
 ###  `Environment Variables`
-Windows 10: added 3 directories in the PATH variable: D:\Anaconda3 ; D:\Anaconda3\Scripts ; D:\Anaconda3\Library\bin<br />
-Included on the TOP of the PATH variable:<br />
+* added 3 directories in the PATH variable:<br />
+D:\Anaconda3 ; D:\Anaconda3\Scripts ; D:\Anaconda3\Library\bin<br />
+* Included on the TOP of the PATH variable:<br />
 c:\Anaconda3\envs\sentim            =>> Python<br />
 c:\Anaconda3\envs\sentim\Scripts    =>> Pytest<br />
 c:\Anaconda3\Scripts                =>> Conda<br />
+* Created a new Env variable to disable AWS_XRAY locally:<br />
+AWS_XRAY_SDK_ENABLED = false<br />
 
 ###  `Pytest settings`
 Created PYTHONPATH environment variable pointing to the "src" directory for Pytest:<br />

@@ -1,20 +1,21 @@
 # Back End Scope tasks
 
+## FIRST MVP
+
 **Python Libraries used for NLP processing**
 - Newspaper: Keywords, Summary, Title and Text
 - TextBlob: Sentiment Analysis (Polarity & Subjectivity Score)
 - Spacy (*): TAG Matcher method, returns a list of entities according to the TAG chosen (Person, Org, Gpe ...)
+             (ready only in the backend: spacyMatcher.py module)
 
 **URL Credibility**
 - Gate Source Credibility API: returns the SCORE, SOURCE and the CATEGORY (left, right, fake news, etc)
 
+
 **Future Ideas**
-* GATE Generic Opinion Mining API: sentiment analysis - polarity, score, sarcasm, etc
-* Compare documents
-* Search Feature
-* Upload a document / Type a document
-* Detect the Language of the text / Translate the text
-* Enable users to see effectively the sentiment analysis results when a simple sentence is typed in the screen.
+* Upload / Type a document instead of URL input.
+* GATE Generic Opinion Mining API: sentiment analysis / sarcasm in sentences.
+* Compare documents.
+* Search Feature.
 
-
-(*) Left to be implemented in a future MVP.
+(*) Spacy Frontend to be implemented in a future MVP.

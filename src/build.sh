@@ -12,5 +12,8 @@ if [ -f build-requirements.txt ]; then pip3 install -r build-requirements.txt; f
 # Run downloadPunkt.py to get that too...
 python3 downloadPunkt.py
 
+# Install spacy modules
+python3 -m spacy download en_core_web_sm --target .
+
 # Set XRAY to false in build environment
 export AWS_XRAY_SDK_ENABLED=false

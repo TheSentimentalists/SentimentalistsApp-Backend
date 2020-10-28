@@ -76,10 +76,5 @@ def test_BiasScore_noPolSubj():
 
 def test_Topics():
     result_dict = lf.lambda_handler({"url":'http://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/today.html'}, "")
-    result_score = {'type': 'topics', 'outcome': {'Today': 'DATE'}}
-    assert result_dict['results'][4] == result_score
-
-def test_errorTopics():
-    result_dict = lf.lambda_handler({"url":'https://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/today.html'}, "")
-    result_score = {'type': 'topics', 'outcome': {'error': 'No topics available.'}}
-    assert result_dict['results'][4] == result_score
+    result_score = [{'type': 'DATE', 'topic': 'Today'}]
+    assert result_dict['article']['topics'] == result_score

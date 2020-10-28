@@ -119,35 +119,33 @@ def lambda_handler(event, context):
     logger.info(f'LambdaFunction: Trying to get Spacy Matcher...')
     if sentanalysisresult['text'] != '-1':
         try:
-            dict_tot = {}
+            article_topics = []
             tags = ['PERSON','GPE','ORG','PERCENT','LANGUAGE','DATE','TIME','LOC','NORP','EVENT','WORK_OF_ART',
                     'MONEY','QUANTITY','ORDINAL','CARDINAL']
             for i in tags:
                 list_objs = sm.spacyMatcher(sentanalysisresult['text'], i) ### {'Toyota', 'BBC', 'BMW', 'Chanel'}
                 for obj in list_objs:
-                    dict_tot[obj] = i                    
-            object['results'].append({'type': 'topics', 'outcome': dict_tot})
+                    article_topics.append({'type' : i, 'topic' : obj})                    
+            object['article']['topics'] = article_topics            
         except Exception as e:
             logger.info(f'LambdaFunction: Could not get Topics.')
             logger.info(e)
-            object['results'].append({'type': 'topics', 'outcome': {"error" : "No topics available."}})
-    else:
-        object['results'].append({'type': 'topics', 'outcome': {"error" : "No topics available."}})
+            object['article']['topics'] = {"error" : "No topics available."}
 
-    #### Intended object to return:
+    #### JSON to return:
     # {
-    #   'url':'http://bbc.co.uk',
+    #   'url':'https://www.theguardian.com/world/2020/',
     #   'article' : {
-    #     'header' : 'An Article Title',
-    #     'summary' : 'The Article Summary',
-    #     'keywords' : ['Boris Johnson', 'Brexit']
+    #     'header' : 'PM admits failings as England's Covid contact',
+    #     'summary' : Boris Johnson and his chief scientific ...',
+    #     'keywords' : ['Boris Johnson', 'Brexit'],
+    #     'topics': [{'type': 'DATE', 'topic': 'Today'}]}}
     #   },
     #   'results' : [
-    #     { 'type' : 'credibility' ...... },
-    #     { 'type' : 'polarity' ..... },
-    #     { 'type' : 'objectivity' .....},
-    #     { 'type' : 'biasscore' .....}
-    #     { 'type' : 'topics' .....}
+    #     { 'type' : 'credibility', 'outcome': {'score': 100.0, 'source ...
+    #     { 'type' : 'polarity',    'outcome': {'score': 0.108126295001 ...
+    #     { 'type' : 'objectivity', 'outcome': {'score': 0.487846736596 ...
+    #     { 'type' : 'bias',        'outcome': {'score': 20.67598528015 ...
     #   ]
     # }
 

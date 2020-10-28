@@ -68,3 +68,8 @@ def test_BiasScore_with_credibility():
     result_dict = lf.lambda_handler({"url":"https://www.bbc.co.uk/news/uk-54234084"}, "")
     result_score = {'type': 'bias', 'outcome': {'score': 45.0}}
     assert result_dict['results'][3] == result_score
+
+def test_BiasScore_noPolSubj():
+    result_dict = lf.lambda_handler({"url":'https://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/today.html'}, "")
+    result_score = {'type': 'bias', 'outcome': {"error" : "The bias score was not available."}}
+    assert result_dict['results'][3] == result_score

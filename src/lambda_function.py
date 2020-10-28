@@ -4,6 +4,7 @@ import json
 import getCredibilityScore as cr
 import sentimentAnalysis as sa
 import getBiasScore as bs
+import spacyMatcher as sm
 import validators
 import sys
 import logging
@@ -50,6 +51,7 @@ def lambda_handler(event, context):
         "results" : []
     }
 
+    # CredibilityScore
     logger.info(f'LambdaFunction: Trying to get credibility score...')
     credibilityresult = {}
     try:
@@ -61,6 +63,8 @@ def lambda_handler(event, context):
         credibilityresult = {'type': 'credibility', 'outcome': {"error" : "The credibility score was not available."}}
         object['results'].append(credibilityresult)
 
+
+    # SentimentAnalisys
     logger.info(f'LambdaFunction: Trying to get sentimentAnalysis score...')
     sentanalysisresult = {}
     try:
@@ -93,8 +97,9 @@ def lambda_handler(event, context):
         object['results'].append({'type': 'polarity',     "outcome": {"error" : "The polarity score could not be calculated."}})
         object['results'].append({'type': 'objectivity', "outcome": {"error" : "The objectivity score could not be calculated."}})
 
-    logger.info(f'LambdaFunction: Trying to get bias score...')
 
+    # BiasScore
+    logger.info(f'LambdaFunction: Trying to get bias score...')
     if sentanalysisresult['text'] != '-1': #### if there is no POL or SUBJ, getBiasScore will not be called
         if 'error' in credibilityresult['outcome']:
             cred_input = -1
@@ -110,6 +115,25 @@ def lambda_handler(event, context):
     else:
         object['results'].append({'type': 'bias', 'outcome': {"error" : "The bias score was not available."}})
 
+    # SpacyMatcher
+    logger.info(f'LambdaFunction: Trying to get Spacy Matcher...')
+    if sentanalysisresult['text'] != '-1':
+        try:
+            dict_tot = {}
+            tags = ['PERSON','GPE','ORG','PERCENT','LANGUAGE','DATE','TIME','LOC','NORP','EVENT','WORK_OF_ART',
+                    'MONEY','QUANTITY','ORDINAL','CARDINAL']
+            for i in tags:
+                list_objs = sm.spacyMatcher(sentanalysisresult['text'], i) ### {'Toyota', 'BBC', 'BMW', 'Chanel'}
+                for obj in list_objs:
+                    dict_tot[obj] = i                    
+            object['results'].append({'type': 'topics', 'outcome': dict_tot})
+        except Exception as e:
+            logger.info(f'LambdaFunction: Could not get Topics.')
+            logger.info(e)
+            object['results'].append({'type': 'topics', 'outcome': {"error" : "No topics available."}})
+    else:
+        object['results'].append({'type': 'topics', 'outcome': {"error" : "No topics available."}})
+
     #### Intended object to return:
     # {
     #   'url':'http://bbc.co.uk',
@@ -123,6 +147,7 @@ def lambda_handler(event, context):
     #     { 'type' : 'polarity' ..... },
     #     { 'type' : 'objectivity' .....},
     #     { 'type' : 'biasscore' .....}
+    #     { 'type' : 'topics' .....}
     #   ]
     # }
 

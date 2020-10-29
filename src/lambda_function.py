@@ -119,14 +119,8 @@ def lambda_handler(event, context):
     logger.info(f'LambdaFunction: Trying to get Spacy Matcher...')
     if sentanalysisresult['text'] != '-1':
         try:
-            article_topics = []
-            tags = ['PERSON','GPE','ORG','PERCENT','LANGUAGE','DATE','TIME','LOC','NORP','EVENT','WORK_OF_ART',
-                    'MONEY','QUANTITY','ORDINAL','CARDINAL']
-            for i in tags:
-                list_objs = sm.spacyMatcher(sentanalysisresult['text'], i) ### {'Toyota', 'BBC', 'BMW', 'Chanel'}
-                for obj in list_objs:
-                    article_topics.append({'type' : i, 'topic' : obj})                    
-            object['article']['topics'] = article_topics            
+            list_objs = sm.spacyMatcher(sentanalysisresult['text'], '') ## ALL Tags
+            object['article']['topics'] = list_objs            
         except Exception as e:
             logger.info(f'LambdaFunction: Could not get Topics.')
             logger.info(e)

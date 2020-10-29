@@ -1,6 +1,7 @@
 ## Function: spacyMatcher
 ## Input: TEXT and TAG (PERSON, ORG, GPE, etc)
-## Output: Set with all names (of person, countries ..) found in the text
+##        If TAG = '' will return all TAGs 
+## Output: List of dictionaries for all TAGs found in the text (os a specific tag if passed)
 ## Author: The Sentimentalists / Ana B Potje
 ## Date: 15/Oct/2020
 ##
@@ -30,14 +31,24 @@ from aws_xray_sdk.core import xray_recorder
 def spacyMatcher(text, tag): 
     import spacy
 
-    ret_set = []
+    if tag == '':
+        all_tags = ['PERSON','GPE','ORG','PERCENT','LANGUAGE','DATE','TIME','LOC','NORP','EVENT','WORK_OF_ART',
+                    'MONEY','QUANTITY','ORDINAL','CARDINAL']
+    else:
+        all_tags = [tag]
+
+    all_topics = []
     if text != '-1':
         ### analysing the text 
         nlp = spacy.load("en_core_web_sm")
         doc = nlp(text)
-    
         interestWords = [(ent.text, ent.label_) for ent in doc.ents]
-        list_all_values = [tup[0] for tup in interestWords if any(i in tup for i in [tag])]
-        ret_set = set(list_all_values)
 
-    return(ret_set) ### RETURNS A SET
+        for tag in all_tags:
+            values_set = []
+            list_all_values = [tup[0] for tup in interestWords if any(i in tup for i in [tag])]        
+            values_set = set(list_all_values)
+            for obj in values_set:
+                all_topics.append({'type' : tag, 'topic' : obj})                    
+
+    return(all_topics) ### RETURNS A LIST of DICTIONARIES!

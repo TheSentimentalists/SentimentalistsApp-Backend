@@ -5,8 +5,7 @@
 **Python Libraries used for NLP processing**
 - Newspaper: Keywords, Summary, Title and Text
 - TextBlob: Sentiment Analysis (Polarity & Subjectivity Score)
-- Spacy (*): TAG Matcher method, returns a list of entities according to the TAG chosen (Person, Org, Gpe ...)
-             (ready only in the backend: spacyMatcher.py module)
+- Spacy: TAG Matcher method, returns a list of entities according to the TAG chosen (Person, Org, Gpe ...)
 
 **URL Credibility**
 - Gate Source Credibility API: returns the SCORE, SOURCE and the CATEGORY (left, right, fake news, etc)
@@ -18,4 +17,3 @@
 * Compare documents.
 * Search Feature.
 
-(*) Spacy Frontend to be implemented in a future MVP.

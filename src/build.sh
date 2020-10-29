@@ -12,7 +12,6 @@ if [ -f build-requirements.txt ]; then pip3 install -r build-requirements.txt; f
 python3 downloadPunkt.py
 # ...and remove PY2 assets and .zip to save space!
 rm ./nltk_data/tokenizers/punkt.zip
-find ./nltk_data/tokenizers/punkt -maxdepth 1 -type f -exec rm -iv {} \;
 find ./nltk_data/tokenizers/punkt -maxdepth 1 -type f -delete
 
 # Install spacy modules

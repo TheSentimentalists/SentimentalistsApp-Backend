@@ -4,6 +4,7 @@ import json
 import getCredibilityScore as cr
 import sentimentAnalysis as sa
 import getBiasScore as bs
+import spacyMatcher as sm
 import validators
 import sys
 import logging
@@ -50,6 +51,7 @@ def lambda_handler(event, context):
         "results" : []
     }
 
+    # CredibilityScore
     logger.info(f'LambdaFunction: Trying to get credibility score...')
     credibilityresult = {}
     try:
@@ -61,6 +63,8 @@ def lambda_handler(event, context):
         credibilityresult = {'type': 'credibility', 'outcome': {"error" : "The credibility score was not available."}}
         object['results'].append(credibilityresult)
 
+
+    # SentimentAnalisys
     logger.info(f'LambdaFunction: Trying to get sentimentAnalysis score...')
     sentanalysisresult = {}
     try:
@@ -93,8 +97,9 @@ def lambda_handler(event, context):
         object['results'].append({'type': 'polarity',     "outcome": {"error" : "The polarity score could not be calculated."}})
         object['results'].append({'type': 'objectivity', "outcome": {"error" : "The objectivity score could not be calculated."}})
 
-    logger.info(f'LambdaFunction: Trying to get bias score...')
 
+    # BiasScore
+    logger.info(f'LambdaFunction: Trying to get bias score...')
     if sentanalysisresult['text'] != '-1': #### if there is no POL or SUBJ, getBiasScore will not be called
         if 'error' in credibilityresult['outcome']:
             cred_input = -1
@@ -110,19 +115,31 @@ def lambda_handler(event, context):
     else:
         object['results'].append({'type': 'bias', 'outcome': {"error" : "The bias score was not available."}})
 
-    #### Intended object to return:
+    # SpacyMatcher
+    logger.info(f'LambdaFunction: Trying to get Spacy Matcher...')
+    if sentanalysisresult['text'] != '-1':
+        try:
+            list_objs = sm.spacyMatcher(sentanalysisresult['text'], '') ## ALL Tags
+            object['article']['topics'] = list_objs            
+        except Exception as e:
+            logger.info(f'LambdaFunction: Could not get Topics.')
+            logger.info(e)
+            object['article']['topics'] = {"error" : "No topics available."}
+
+    #### JSON to return:
     # {
-    #   'url':'http://bbc.co.uk',
+    #   'url':'https://www.theguardian.com/world/2020/',
     #   'article' : {
-    #     'header' : 'An Article Title',
-    #     'summary' : 'The Article Summary',
-    #     'keywords' : ['Boris Johnson', 'Brexit']
+    #     'header' : 'PM admits failings as England's Covid contact',
+    #     'summary' : Boris Johnson and his chief scientific ...',
+    #     'keywords' : ['Boris Johnson', 'Brexit'],
+    #     'topics': [{'type': 'DATE', 'topic': 'Today'}]}}
     #   },
     #   'results' : [
-    #     { 'type' : 'credibility' ...... },
-    #     { 'type' : 'polarity' ..... },
-    #     { 'type' : 'objectivity' .....},
-    #     { 'type' : 'biasscore' .....}
+    #     { 'type' : 'credibility', 'outcome': {'score': 100.0, 'source ...
+    #     { 'type' : 'polarity',    'outcome': {'score': 0.108126295001 ...
+    #     { 'type' : 'objectivity', 'outcome': {'score': 0.487846736596 ...
+    #     { 'type' : 'bias',        'outcome': {'score': 20.67598528015 ...
     #   ]
     # }
 

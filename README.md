@@ -37,4 +37,4 @@ Contains the Python modules used to run the tests (PYTEST library).<br />
 The file INSTALL.md contains commands used to create the local anaconda environment, as well as settings used to enable the PYTEST execution and important environment variables locally set.
 
 ### `SCOPE.md (file)`
-The file SCOPE.md has a list of the libraries and APIs used in the backend code. It also has a list of ideas that can be implemented in future MVPs. The "spacyMatcher.py" function was the only one developed but not implemented in the current MVP.
+The file SCOPE.md has a list of the libraries and APIs used in the backend code. It also has a list of ideas that can be implemented in future MVPs.

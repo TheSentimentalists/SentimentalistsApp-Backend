@@ -27,7 +27,6 @@
 from aws_xray_sdk.core import xray_recorder
 
 @xray_recorder.capture('spacyMatcher')
-
 def spacyMatcher(text, tag): 
     import spacy
 

@@ -18,6 +18,7 @@ Contains the source code of our Python modules.<br />
   -  lambda_function.py<br />
   -  sentimentAnalysis.py<br />
   -  spacyMatcher.py<br />
+     (Frontend is currently Using the following spaCy tags: PERSON, GPE, ORG, WORK_OF_ART, EVENT)
 
 The following two files are used in the automation, pointing to the Python libraries that must be installed:<br />
   -  build-requirements.txt<br />

@@ -79,7 +79,7 @@ def lambda_handler(event, context):
             object['article'] = {'header': sentanalysisresult['header'], 
                                     'summary': sentanalysisresult['summary'],
                                     'keywords': sentanalysisresult['keywords'],
-                                    'iamge':sentanalysisresult['image']}
+                                    'image':sentanalysisresult['image']}
             object['results'].append({'type': 'polarity',     'outcome': {"score": sentanalysisresult['polarity']}})
             object['results'].append({'type': 'objectivity', 'outcome': {"score": abs(1 - sentanalysisresult['subjectivity'])}})
 

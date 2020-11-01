@@ -51,8 +51,7 @@ jobs:
 
     - name: Build a package
       working-directory: ./src
-      run: |
-        zip -r9 payload.zip .
+      run: sh package.sh
     
     - name: Upload file to bucket
       uses: zdurham/s3-upload-github-action@master

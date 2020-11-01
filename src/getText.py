@@ -74,8 +74,12 @@ def getText(url):
     text = text.replace("Media playback is unsupported on your device ", "")
     text = text.replace("Media caption ", "")
 
-
-    return  {'text': text,
+    result = {'text': text,
              'header': article.title, 
              'summary': article.summary,
              'keywords': article.keywords}
+
+    if article.top_image != "":
+        result['image'] = article.top_image       
+
+    return result

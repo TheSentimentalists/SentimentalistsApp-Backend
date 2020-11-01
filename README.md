@@ -1,5 +1,7 @@
 # SentimentalistsApp-Backend
 
+The backend service for [The Sentimentalists](https://thesentimentalists.github.io) article analysis service. Deployed on AWS Lambda.
+
 ## Folder Structure:
 
 The SENTIMENTALISTSAPP-BACKEND is divided into the following folders:

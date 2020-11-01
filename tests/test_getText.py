@@ -38,3 +38,14 @@ def test_get_Text_from_Invalid_URL():
     url = "https://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/today.html"
     getText_dict = getTxt.getText(url)
     assert  getText_dict['text'] == '-1'
+
+dict_return = {'text': "Horrible Day!Today is a horrible day. Today is a horrible day. Today is a horrible day.",
+               'header': "Test", 
+               'summary': 'Horrible Day!\nToday is a horrible day.\nToday is a horrible day.\nToday is a horrible day.',
+               'keywords': list_kw,
+               'image': 'http://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/test.png'}
+
+def test_getText_check_Image():
+    url = "http://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/image_test.html"
+    getText_dict = getTxt.getText(url)
+    assert  getText_dict['image'] == dict_return['image']

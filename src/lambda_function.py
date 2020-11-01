@@ -78,9 +78,11 @@ def lambda_handler(event, context):
         else:
             object['article'] = {'header': sentanalysisresult['header'], 
                                     'summary': sentanalysisresult['summary'],
-                                    'keywords': sentanalysisresult['keywords']}
+                                    'keywords': sentanalysisresult['keywords'],
+                                    'image':sentanalysisresult['image']}
             object['results'].append({'type': 'polarity',     'outcome': {"score": sentanalysisresult['polarity']}})
             object['results'].append({'type': 'objectivity', 'outcome': {"score": abs(1 - sentanalysisresult['subjectivity'])}})
+
     except Exception as e:
         logger.info(f'LambdaFunction: Could not get sentimentAnalysis Score.')
         exception_type, exception_value, exception_traceback = sys.exc_info()

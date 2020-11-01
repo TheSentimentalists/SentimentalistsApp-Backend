@@ -78,3 +78,8 @@ def test_Topics():
     result_dict = lf.lambda_handler({"url":'http://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/today.html'}, "")
     result_score = [{'type': 'DATE', 'topic': 'Today'}]
     assert result_dict['article']['topics'] == result_score
+
+def test_Image():
+    result_dict = lf.lambda_handler({"url":'http://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/image_test.html'}, "")
+    result_score = 'http://sentimentalists-tests.s3-website.eu-west-2.amazonaws.com/test.png'
+    assert result_dict['article']['image'] == result_score

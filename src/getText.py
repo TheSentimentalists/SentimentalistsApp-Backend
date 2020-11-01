@@ -77,9 +77,7 @@ def getText(url):
     result = {'text': text,
              'header': article.title, 
              'summary': article.summary,
-             'keywords': article.keywords}
-
-    if article.top_image != "":
-        result['image'] = article.top_image       
+             'keywords': article.keywords,
+             'image': article.top_image} 
 
     return result

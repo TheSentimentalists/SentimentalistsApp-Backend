@@ -4,6 +4,8 @@ The backend service for [The Sentimentalists](https://thesentimentalists.github.
 The source code was developed in PYTHON. <br />
 The APP was then built and deployed on AWS Lambda.<br />
 
+![Image of Backend](https://github.com/TheSentimentalists/SentimentalistsApp-Backend/blob/master/System_Overview.jpg?raw=true)
+
 ## Folder Structure:
 
 The SENTIMENTALISTSAPP-BACKEND is divided into the following folders:

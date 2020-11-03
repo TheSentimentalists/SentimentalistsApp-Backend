@@ -1,6 +1,6 @@
 # SentimentalistsApp-Backend
 
-![Build](https://img.shields.io/github/workflow/status/TheSentimentalists/SentimentalistsApp-Backend/Deploy%20to%20AWS?event=push) ![GitHub last commit](https://img.shields.io/github/last-commit/TheSentimentalists/SentimentalistsApp-Backend) ![GitHub issues](https://img.shields.io/github/issues/TheSentimentalists/SentimentalistsApp-Backend)](https://github.com/TheSentimentalists/SentimentalistsApp-Backend/issues)
+![Build](https://img.shields.io/github/workflow/status/TheSentimentalists/SentimentalistsApp-Backend/Deploy%20to%20AWS?event=push) ![GitHub last commit](https://img.shields.io/github/last-commit/TheSentimentalists/SentimentalistsApp-Backend) ![GitHub issues](https://img.shields.io/github/issues/TheSentimentalists/SentimentalistsApp-Backend)
 
 The backend service for [The Sentimentalists](https://thesentimentalists.github.io) article analysis service.<br />
 The source code was developed in PYTHON. <br />

@@ -1,10 +1,17 @@
 # SentimentalistsApp-Backend
 
+![Build](https://img.shields.io/github/workflow/status/TheSentimentalists/SentimentalistsApp-Backend/Deploy%20to%20AWS?event=push) ![GitHub last commit](https://img.shields.io/github/last-commit/TheSentimentalists/SentimentalistsApp-Backend) ![GitHub issues](https://img.shields.io/github/issues/TheSentimentalists/SentimentalistsApp-Backend)](https://github.com/TheSentimentalists/SentimentalistsApp-Backend/issues)
+
 The backend service for [The Sentimentalists](https://thesentimentalists.github.io) article analysis service.<br />
 The source code was developed in PYTHON. <br />
 The APP was then built and deployed on AWS Lambda.<br />
 
 ![Image of Backend](https://github.com/TheSentimentalists/SentimentalistsApp-Backend/blob/master/System_Overview.jpg?raw=true)
+
+## Deployment
+This service is automatically built and deployed to AWS when code is merged to master. Check out the workflow in [.github/workflows/deploy.yml](.github/workflows/deploy.yml) for the steps. It's is built with terraform modules inherited from our [shared infrastructure repo](https://github.com/TheSentimentalists/SentimentalistsApp-Infrastructure).
+
+To build locally, see INSTALL.md.
 
 ## Folder Structure:
 

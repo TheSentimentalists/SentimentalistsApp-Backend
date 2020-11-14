@@ -25,10 +25,7 @@ def sentiment_analysis(url):
 
     logger.info(f'SentimentAnalysis: initialised')
 
-    print("sentimentAnalysis: Trying getText()")
     dict_return = get_txt.get_text(url)
-    print("sentimentAnalysis: Dumping return:")
-    print(dict_return)
     testimonial = ''
 
     if dict_return['text'] != '-1':
@@ -36,4 +33,4 @@ def sentiment_analysis(url):
         dict_return['polarity'] = testimonial.sentiment.polarity
         dict_return['subjectivity'] = testimonial.sentiment.subjectivity
 
-    return(dict_return)
+    return dict_return

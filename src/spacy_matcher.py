@@ -5,8 +5,10 @@ import spacy
 @xray_recorder.capture('spacy_matcher')
 def spacy_matcher(text):
     """
-    :param text: raw text, which was extracted from the user input URL
-    :return: List of dictionary objects: [{'type': <tag>, 'topic': <str>},..]
+    Calls the Python Library Spacy with a TEXT to be analysed.
+
+    Input: text (raw text, which was extracted from the user input URL
+    Output: List of dictionary objects: [{'type': <tag>, 'topic': <str>},..]
     """
 
     all_topics = []

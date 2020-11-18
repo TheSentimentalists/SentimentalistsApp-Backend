@@ -24,37 +24,39 @@ Contains the Terraform files:<br />
 
 ### `src`
 Contains the source code of our Python modules.<br />
-  -  downloadPunkt.py<br />
+  -  download_punkt.py<br />
      Downloads NLTK PUNKT, which is used by TextBlob library, in order to reduce the size of the package passed in the automation to AWS Lambda.<br />
 
-  -  getBiasScore.py<br />
+  -  get_bias_score.py<br />
      Calculates the TRUST SCORE, based on the credibility, polarity, subjectivity values.<br />
 
-  -  getCredibilityScore.py<br />
+  -  get_credibility_score.py<br />
      Calls the API Gate Source Credibility passing the URL. Returns the URL Credibility Score, Category (Left Center, Fake News, ... and the Source which rated the website (Media Bias / Fact Check, etc)..py.<br />
 
-  -  getSecret.py<br />
+  -  get_secret.py<br />
      Calls AWS Secret Manager and returns the requested secret as a dict of key/value pairs.<br />
 
-  -  getText.py<br />
+  -  get_text.py<br />
      Calls the Python library "Newspaper", which retrieves the text (article) from an URL.
      Returns the article TEXT, HEADER, SUMMARY, KEYWORDS and TOP_IMAGE of the news article.<br />
 
   -  lambda_function.py<br />
      Main module of our backend app. Firstly it validates the URL, then it calls the following Python modules:<br />
-     1) getCredibilityScore.py<br />
-     2) sentimentAnalysis.py<br />
-     3) getBiasScore.py<br />
-     4) spacyMatcher.py<br />
+     1) get_credibility_score.py<br />
+     2) sentiment_analysis.py<br />
+     3) get_bias_score.py<br />
+     4) spacy_matcher.py<br />
  
      Each of these modules returns results that will populate our JSON file, which will be sent to the frontend via AWS Lambda.<br />
 
-  -  sentimentAnalysis.py<br />
+  -  sentiment_analysis.py<br />
      Reads an URL, then calls the function "getText" to convert the HTML text into  an unformatted text. Then it calls the Python <br />
      Library TextBlob, which analyses the "sentiment" of the text. It finally returns the polarity and subjectivity of the whole text.<br />
 
-  -  spacyMatcher.py<br />
-     Calls the Python Library Spacy with a TEXT to be analysed and a specific TAG (or '' for ALL TAGS). Lambda_Function.py calls spacyMatcher with TAG = '', so ALL TAGS are returned. Please find below the list of tags currently used. The output of this function is a list with dictionary pairs: {'type' : tag, 'topic' : obj}.<br />
+  -  spacy_matcher.py<br />
+     Calls the Python Library Spacy with a TEXT to be analysed.<br />
+     The output of this function is a list with dictionary pairs: {'type' : tag, 'topic' : obj}.<br />
+     The tags that can be returned by the spaCy library are:<br />
       PERSON - People, including fictional.<br />
       ORG - Companies, agencies, institutions, etc.<br />
       GPE - Countries, cities, states.<br />
@@ -70,6 +72,7 @@ Contains the source code of our Python modules.<br />
       QUANTITY - Measurements, as of weight or distance.<br />
       ORDINAL - “first”, “second”, etc.<br />
       CARDINAL - Numerals that do not fall under another type (not ordinal, quantity ..)<br />
+
     PS: Our APP Frontend is currently Using the following spaCy tags: PERSON, ORG, GPE, EVENT and WORK_OF_ART.<br />
 
 The following files are used in the automation, installing objects, compressing / deleting them or pointing to the Python libraries that must be installed:<br />
@@ -80,14 +83,14 @@ The following files are used in the automation, installing objects, compressing 
 
 ### `tests`
 Contains the Python modules used to run the tests (PYTEST library).<br />
-We are currently running 50 tests, as shown below:
-  -  test_checkCredibilityScore.py  (2 tests)<br />
-  -  test_getBiasScore.py           (2 tests)<br />
-  -  test_getSecret.py              (2 tests)<br />
-  -  test_getText.py                (6 tests)<br />
-  -  test_lambda_handler.py         (15 tests)<br />
-  -  test_sentimentAnalysis.py      (7 tests)<br />
-  -  test_spacyMatcher.py           (16 tests)<br />
+We are currently running 35 tests, as shown below:
+  -  test_get_credibility_score.py  (2 tests)<br />
+  -  test_get_bias_score.py         (2 tests)<br />
+  -  test_get_secret.py             (2 tests)<br />
+  -  test_get_text.py               (6 tests)<br />
+  -  test_lambda_function.py        (15 tests)<br />
+  -  test_sentiment_analysis.py     (7 tests)<br />
+  -  test_spacy_matcher.py          (1 test)<br />
 
 ### `INSTALL.md (file)`
 The file INSTALL.md contains commands used to create the local anaconda environment, as well as settings used to enable the PYTEST execution and important environment variables locally set.

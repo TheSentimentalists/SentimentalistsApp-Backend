@@ -3,9 +3,9 @@
 ## FIRST MVP
 
 **Python Libraries used for NLP processing**
-- Newspaper: Keywords, Summary, Title and Text
+- Newspaper: Keywords, Summary, Title, Text and Image.
 - TextBlob: Sentiment Analysis (Polarity & Subjectivity Score)
-- Spacy: TAG Matcher method, returns a list of entities according to the TAG chosen (Person, Org, Gpe ...)
+- Spacy: TAG Matcher method, returns a list of words for each existing TAG in the text.
 
 **URL Credibility**
 - Gate Source Credibility API: returns the SCORE, SOURCE and the CATEGORY (left, right, fake news, etc)

@@ -28,7 +28,7 @@ c:\Anaconda3\Scripts                =>> Conda<br />
 * Created a new Env variable to disable AWS_XRAY locally:<br />
 AWS_XRAY_SDK_ENABLED = false<br />
 
-###  `Pytest settings`
+###  `Pytest settings and linting`
 Created PYTHONPATH environment variable pointing to the "src" directory for Pytest:<br />
      PYTHONTEST = "D:\AATechReturners\Sentimentalists\backend\SentimentalistsApp-Backend\src"<br />
 Included empty files "__init__.py" in the test and src directories (required for Pytest)<br />
@@ -38,3 +38,9 @@ Created the file "setup.py" under the directory "SentimentalistsApp-Backend":<br
 #!/usr/bin/env python3<br />
 from setuptools import setup, find_packages<br />
 setup(name="utils", packages=find_packages())<br />
+
+All code in the repo is formatted to PEP8 standards, please install the packages below to ensure consistency:
+$ pip install pep8
+$ pip install pylint
+$ conda install --name sentim pydocstyle -y
+$ conda install --name sentim pycodestyle -y

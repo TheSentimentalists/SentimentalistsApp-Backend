@@ -1,6 +1,4 @@
-"""
-Single script used during CI/CD build process to download NLTK assets
-"""
+"""Single script used during CI/CD build process to download NLTK assets"""
 
 import nltk
 
